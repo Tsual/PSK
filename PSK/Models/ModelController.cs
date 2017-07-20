@@ -5,6 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/* Context Model */
+/*
+public class testDbContext : DbContext
+{
+    public DbSet<testmodel> dats { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlite("FileName=efdb.db");
+    }
+}
+*/
+
 namespace PSK.Models
 {
     class ModelController
@@ -38,13 +51,30 @@ namespace PSK.Models
     }
 
 
-    public class APPDbContext:DbContext
+    public class APPDbContext : DbContext
     {
+        public DbSet<StringSequence> SA { get; set; }
 
+        public DbSet<StringSequenceB> SB { get; set; }
+
+        public DbSet<User> Users { get; set; }
+
+
+
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("FileName=appdb.db");
+        }
     }
-
+    
     public class UserDbContext : DbContext
     {
+        public DbSet<Data> Infos { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("FileName=userdb.db");
+        }
     }
 }
