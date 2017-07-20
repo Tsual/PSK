@@ -95,9 +95,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AssetsController.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20170720121440_init.cs" />
+    <Compile Include="Migrations\20170720121440_init.designer.cs">
+      <DependentUpon>20170720121440_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\APPDbContextModelSnapshot.cs" />
     <Compile Include="Models\ModelController.cs" />
     <Compile Include="Models\Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -145,6 +151,7 @@
       <Name>PSK.Helper</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

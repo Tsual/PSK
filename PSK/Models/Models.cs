@@ -22,8 +22,8 @@ using System.Threading.Tasks;
 
 namespace PSK.Models
 {
-    [Table(name: "StringSequence")]
-    public class StringSequence
+    [Table(name: "StringSequenceA")]
+    public class StringSequenceObjA
     {
         [Required, Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
@@ -32,7 +32,7 @@ namespace PSK.Models
     }
 
     [Table(name: "StringSequenceB")]
-    public class StringSequenceB
+    public class StringSequenceObjB
     {
         [Required, Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
@@ -51,8 +51,8 @@ namespace PSK.Models
         public string pwd { get; set; }
     }
 
-    [Table(name: "Data")]
-    public class Data
+    [Table(name: "Recording")]
+    public class Recording
     {
         [Required, Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
@@ -60,5 +60,7 @@ namespace PSK.Models
         public string key { get; set; }
 
         public string value { get; set; }
+
+        public int uid { get; set; }
     }
 }
