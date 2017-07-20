@@ -106,10 +106,11 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AESProvider.cs" />
     <Compile Include="Core.cs" />
-    <Compile Include="Decryptor.cs" />
-    <Compile Include="Encryptor.cs" />
+    <Compile Include="HashProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RandomGenerator.cs" />
     <Compile Include="test.cs" />
     <EmbeddedResource Include="Properties\PSK.Helper.rd.xml" />
   </ItemGroup>

@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using PSK.Helper;
 
 namespace PSK
 {
@@ -30,6 +31,50 @@ namespace PSK
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+
+
+
+
+
+            string pid = "aaabba";
+            string pwd = "fdsfaasf";
+            RandomGenerator ran = new RandomGenerator();
+            string str = ran.getRandomString(50);
+
+            byte[] iv = new byte[16];
+            byte[] key = new byte[100];
+            Random rann = new Random();
+            rann.NextBytes(iv);
+            rann.NextBytes(key);
+
+            AESProvider aesobj = new AESProvider(iv, key);
+            string s1 = aesobj.Encrypt(pid);
+            string s2 = aesobj.Decrypt(s1);
+
+
+
+
+
+
+
+
+
+
+
+            int a = 0;
+
+
+
+
+
+
+
+
+
+
+
+
         }
 
         /// <summary>
