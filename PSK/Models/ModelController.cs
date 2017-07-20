@@ -36,4 +36,15 @@ namespace PSK.Models
         }
 
     }
+
+
+    public class APPDbContext:DbContext
+    {
+
+    }
+
+    public class UserDbContext : DbContext
+    {
+
+    }
 }
