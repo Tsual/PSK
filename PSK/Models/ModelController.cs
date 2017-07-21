@@ -53,7 +53,7 @@ namespace PSK.Models
         public static void test()
         {
             Helper.RandomGenerator rso = new Helper.RandomGenerator();
-           
+
 
 
             using (APPDbContext db = new APPDbContext())
@@ -100,8 +100,8 @@ namespace PSK.Models
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        =>optionsBuilder.UseSqlite("FileName=efdb.db");
-        
+        => optionsBuilder.UseSqlite("FileName=efdb.db");
+
     }
-    
+
 }

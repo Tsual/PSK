@@ -35,7 +35,7 @@ namespace PSK
 
 
             //PSK.Models.ModelController.test();
-
+            AssetsController.test();
 
 
 

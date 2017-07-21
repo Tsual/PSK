@@ -56,7 +56,7 @@ namespace PSK.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     pid = table.Column<string>(nullable: true),
-                    pwd = table.Column<string>(nullable: true)
+                    pwd_hash_aes = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
