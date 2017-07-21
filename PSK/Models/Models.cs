@@ -62,5 +62,34 @@ namespace PSK.Models
         public string value { get; set; }
 
         public int uid { get; set; }
+
+    }
+
+    public class Info
+    {
+        public Recording Record { get; set; }
+        public string Title { get; set; }
+        public string Detail { get; set; }
+
+        public Recording Encode(CurrentUser user)
+        {
+            Record = new Recording();
+            Record.key = user.Encode(Title);
+            Record.value = user.Encode(Detail);
+            Record.uid = user.UID;
+            return Record;
+        }
+
+        public Info()
+        {
+
+        }
+
+        public Info(Recording record,CurrentUser user)
+        {
+            this.Record = record;
+            this.Title = user.Decode(record.key);
+            this.Detail = user.Decode(record.value);
+        }
     }
 }

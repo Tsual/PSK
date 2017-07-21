@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using System.Collections.Specialized;
+using Windows.Security.Cryptography.Core;
 
 namespace PSK
 {
@@ -97,7 +99,28 @@ namespace PSK
             return aesobj.Encrypt(metaStr);
         }
 
-
+        public static string getLocalSequenceString(int id)
+        {
+            using (APPDbContext db = new APPDbContext())
+            {
+                var res = db.SA.Find(id);
+                if (res != null)
+                    return res.Data;
+                else
+                {
+                    var ncount = db.SA.Count();
+                    var rans = new Helper.RandomGenerator();
+                    for (int i = 0; i < id - ncount; i++)
+                    {
+                        db.SA.Add(new StringSequenceObjA() { Data = rans.getRandomString(20) });
+                    }
+                    db.SaveChanges();
+                    res = db.SA.Find(id);
+                    if (res == null) throw new Exception("sa id miss");
+                    return res.Data;
+                }
+            }
+        }
 
         static AssetsController()
         {
@@ -143,14 +166,28 @@ namespace PSK
             //    db.SaveChanges();
             //}
 
+            using (APPDbContext db = new APPDbContext())
+            {
+                db.Database.EnsureCreated();
+
+                var list = (from t in db.Recordings.ToList()
+                            select t).ToList();
+                foreach (var t in list)
+                {
+                    db.Entry(t).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+
+                }
+                db.SaveChanges();
+            }
 
 
 
-            var user = LoginUser.CreateObj("test", "fdasfsaf");
+            var user = LoginUser.CreateObj("test", "test");
             user.UserNotFoundEvent += (obj) => { return LoginUser.UserNotFoundReceipt.Create; };
             var cuser = user.TryLogin();
-
-
+            var item = new Info() { Title = "ffff", Detail = "detail" };
+            cuser.Recordings.Add(item);
+            cuser.Recordings.Remove(item);
 
 
 
@@ -179,21 +216,104 @@ namespace PSK
 
     }
 
-    public sealed class CurrentUser
+    public class CurrentUser
     {
-        internal CurrentUser()
+        internal CurrentUser(List<Recording> list, string PID, string PWD_hash, int UID)
         {
 
+            this.PID = PID;
+            this.PWD_hash = PWD_hash;
+            this.UID = UID;
+            foreach (var t in list)
+                recordings.Add(new Info(t, this));
+            recordings.CollectionChanged += Recordings_CollectionChanged;
         }
 
-        public string PID { get; set; }
-        public string PWD_hash { get; set; }
-        public int UID { get; set; }
+        private void Recordings_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            using (APPDbContext db = new APPDbContext())
+            {
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        foreach (var t in e.NewItems)
+                        {
+                            db.Entry(((Info)t).Encode(this)).State =
+                                Microsoft.EntityFrameworkCore.EntityState.Added;
+                        }
+                        break;
+                    case NotifyCollectionChangedAction.Remove:
+                        foreach (var t in e.OldItems)
+                        {
+                            db.Entry(((Info)t).Record).State =
+                                Microsoft.EntityFrameworkCore.EntityState.Deleted;
+                        }
+                        break;
+                    case NotifyCollectionChangedAction.Replace:
+                        foreach (var t in e.OldItems)
+                        {
+                            db.Entry(((Info)t).Record).State =
+                                Microsoft.EntityFrameworkCore.EntityState.Deleted;
+                        }
+                        foreach (var t in e.NewItems)
+                        {
+                            db.Entry(((Info)t).Encode(this)).State =
+                                Microsoft.EntityFrameworkCore.EntityState.Added;
+                        }
+                        break;
+                    case NotifyCollectionChangedAction.Reset:
+                        foreach (var t in e.OldItems)
+                        {
+                            db.Entry(((Info)t).Record).State =
+                                Microsoft.EntityFrameworkCore.EntityState.Deleted;
+                        }
+                        foreach (var t in e.NewItems)
+                        {
+                            db.Entry(((Info)t).Encode(this)).State =
+                                Microsoft.EntityFrameworkCore.EntityState.Added;
+                        }
+                        break;
+                }
+                db.SaveChanges();
+            }
+        }
 
-        public ObservableCollection<Recording> Recordings { get => recordings; set => recordings = value; }
-        private ObservableCollection<Recording> recordings;
+        public string PID { get; private set; }
+        public string PWD_hash { get; private set; }
+        public int UID { get; private set; }
+        private Helper.AESProvider AESobj
+        {
+            get
+            {
+                var ivhash = new Helper.HashProvider(HashAlgorithmNames.Md5);
+                byte[] _iv = ivhash.Hashbytes(PID);
 
-        
+                string ranstr = AssetsController.getLocalSequenceString(UID);
+                string kstr1 = ranstr + PWD_hash;
+                string kstr2 = PWD_hash + ranstr;
+
+                var keyhash = new Helper.HashProvider();
+                byte[] _key = new byte[128];
+                byte[] btar = keyhash.Hashbytes(kstr1);
+                Array.Copy(btar, 0, _key, 0, 64);
+                btar = keyhash.Hashbytes(kstr2);
+                Array.Copy(btar, 0, _key, 64, 64);
+
+                return  new Helper.AESProvider(_iv, _key);
+            }
+        }
+
+        public ObservableCollection<Info> Recordings { get => recordings; }
+        private ObservableCollection<Info> recordings = new ObservableCollection<Info>();
+
+        public string Decode(string metaStr)
+        {
+            return AESobj.Decrypt(metaStr);
+        }
+        public string Encode(string metaStr)
+        {
+            return AESobj.Encrypt(metaStr);
+        }
 
     }
 
@@ -225,7 +345,7 @@ namespace PSK
 
         public CurrentUser TryLogin()
         {
-            if(UserNotFoundEvent==null) UserNotFoundEvent += (obj)=> { return UserNotFoundReceipt.None; };
+            if (UserNotFoundEvent == null) UserNotFoundEvent += (obj) => { return UserNotFoundReceipt.None; };
             if (UserPwdVertifyFailEvent == null) UserPwdVertifyFailEvent += (obj) => { };
 
             using (APPDbContext db = new APPDbContext())
@@ -264,14 +384,9 @@ namespace PSK
                 int uid = (from t in db.Users.ToList()
                            where PID == t.pid && pwd_hash_aes == t.pwd
                            select t).ToList().ElementAt(0).ID;
-                CurrentUser _cuser = new CurrentUser() { PID=PID,PWD_hash=PWD_hash };
-                var recordlist = (from t in db.Recordings.ToList()
-                                  where t.uid == uid
-                                  select t).ToList();
-                foreach (var t in recordlist)
-                    _cuser.Recordings.Add(t);
-                _cuser.UID = uid;
-                return _cuser;
+                return new CurrentUser((from t in db.Recordings.ToList()
+                                        where t.uid == uid
+                                        select t).ToList(), PID, PWD_hash, uid);
             }
         }
 
