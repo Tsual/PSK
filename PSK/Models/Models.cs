@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PSK.UserComponent;
 
 /* Models*/
 /*  
@@ -68,13 +69,13 @@ namespace PSK.Models
     public class Info
     {
         public Recording Record { get; set; }
-        public string Title { get; set; }
+        public string SerializableString { get; set; }
         public string Detail { get; set; }
 
         public Recording Encode(CurrentUser user)
         {
             Record = new Recording();
-            Record.key = user.Encode(Title);
+            Record.key = user.Encode(SerializableString);
             Record.value = user.Encode(Detail);
             Record.uid = user.UID;
             return Record;
@@ -88,7 +89,7 @@ namespace PSK.Models
         public Info(Recording record,CurrentUser user)
         {
             this.Record = record;
-            this.Title = user.Decode(record.key);
+            this.SerializableString = user.Decode(record.key);
             this.Detail = user.Decode(record.value);
         }
     }

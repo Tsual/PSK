@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PSK.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,40 +53,40 @@ namespace PSK.Models
 
         public static void test()
         {
-            Helper.RandomGenerator rso = new Helper.RandomGenerator();
+            //Helper.RandomGenerator rso = new Helper.RandomGenerator();
 
 
 
-            using (APPDbContext db = new APPDbContext())
-            {
-                if (db.Database.EnsureCreated())
-                    db.Database.Migrate();
+            //using (APPDbContext db = new APPDbContext())
+            //{
+            //    if (db.Database.EnsureCreated())
+            //        db.Database.Migrate();
 
-                StringSequenceObjA o1 = new StringSequenceObjA() { Data = rso.getRandomString(20) };
-                db.Entry(o1).State = EntityState.Added;
-                StringSequenceObjB o2 = new StringSequenceObjB() { Data = rso.getRandomString(20) };
-                db.Entry(o2).State = EntityState.Added;
-                User u = new User() { pid = "test", pwd = "TesT" };
-                db.Entry(u).State = EntityState.Added;
-                Recording obj = new Recording() { key = "fff", value = "fff", uid = 1 };
-                db.Entry(obj).State = EntityState.Added;
-
-
-                db.SaveChanges();
+            //    StringSequenceObjA o1 = new StringSequenceObjA() { Data = rso.getRandomString(20) };
+            //    db.Entry(o1).State = EntityState.Added;
+            //    StringSequenceObjB o2 = new StringSequenceObjB() { Data = rso.getRandomString(20) };
+            //    db.Entry(o2).State = EntityState.Added;
+            //    User u = new User() { pid = "test", pwd = "TesT" };
+            //    db.Entry(u).State = EntityState.Added;
+            //    Recording obj = new Recording() { key = "fff", value = "fff", uid = 1 };
+            //    db.Entry(obj).State = EntityState.Added;
 
 
-                var reslist1 = db.SA.ToList();
-                var reslist2 = db.SB.ToList();
-                var reslist3 = db.Users.ToList();
-                var reslist4 = db.Recordings.ToList();
-                int a = 0;
+            //    db.SaveChanges();
+
+
+            //    var reslist1 = db.SA.ToList();
+            //    var reslist2 = db.SB.ToList();
+            //    var reslist3 = db.Users.ToList();
+            //    var reslist4 = db.Recordings.ToList();
+            //    int a = 0;
             }
 
 
 
         }
 
-    }
+    
 
 
     public class APPDbContext : DbContext
