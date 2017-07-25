@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using PSK.Helper;
+using PSK.UserComponent;
+using PSK.Models;
 
 namespace PSK
 {
@@ -35,9 +37,18 @@ namespace PSK
 
 
             //PSK.Models.ModelController.test();
-            AssetsController.test();
+            //AssetsController.test();
 
+            //var user = LoginUser.CreateObj("test", "test");
+            //user.TryLogin();
+            //var ee = Core.Current.CurrentUser.Recordings[0];
+            //ee.Detail = "123456789";
+            //Core.Current.CurrentUser.Recordings[0] = ee;
 
+            //var item = new Info() {  Detail = "testdetail" ,DetailName="testdetailname"};
+            //Core.Current.CurrentUser.Recordings.Add(item);
+
+            int a = 0;
 
 
         }

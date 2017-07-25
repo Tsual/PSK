@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -11,6 +10,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
+using PSK.Models;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
@@ -21,24 +21,17 @@ namespace PSK
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class Userpage : Page
+    public sealed partial class ctrltestpage : Page
     {
-        public ObservableCollection<Models.Info> ItemCollection = Core.Current.CurrentUser.Recordings;
-        public Userpage()
+        public ctrltestpage()
         {
             this.InitializeComponent();
-        }
 
-        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
-        {
-            
-        }
+            Info obj = Core.Current.CurrentUser.Recordings[0];
+            DetailCtrl ctrl = new DetailCtrl() { InfoItem = obj };
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Core.Current.Unsubscribe();
-            if (Frame.CanGoBack)
-                Frame.GoBack();
+            _stackpanel.Children.Add(ctrl);
+
         }
     }
 }

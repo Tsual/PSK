@@ -44,15 +44,10 @@ namespace PSK.UserComponent
                         }
                         break;
                     case NotifyCollectionChangedAction.Replace:
-                        foreach (var t in e.OldItems)
-                        {
-                            db.Entry(((Info)t).Record).State =
-                                Microsoft.EntityFrameworkCore.EntityState.Deleted;
-                        }
                         foreach (var t in e.NewItems)
                         {
-                            db.Entry(((Info)t).Encode(this)).State =
-                                Microsoft.EntityFrameworkCore.EntityState.Added;
+                            db.Entry(((Info)t).Modify(this)).State =
+                                Microsoft.EntityFrameworkCore.EntityState.Modified;
                         }
                         break;
                     case NotifyCollectionChangedAction.Reset:
@@ -108,6 +103,15 @@ namespace PSK.UserComponent
         {
             return AESobj.Encrypt(metaStr);
         }
+        public void Logout()
+        {
+
+            Core.Current.Unsubscribe();
+            UserUnsubscribedEvent?.Invoke(this);
+        }
+
+        public delegate void UserUnsubscribedEventHandler(CurrentUser user);
+        public event UserUnsubscribedEventHandler UserUnsubscribedEvent;
 
     }
 
@@ -137,7 +141,7 @@ namespace PSK.UserComponent
             return user;
         }
 
-        public CurrentUser TryLogin()
+        public void TryLogin()
         {
             if (UserNotFoundEvent == null) UserNotFoundEvent += (obj) => { return UserNotFoundReceipt.None; };
 
@@ -162,7 +166,7 @@ namespace PSK.UserComponent
                             db.SaveChanges();
                             break;
                         case UserNotFoundReceipt.None:
-                            return null;
+                            return;
                     }
                 }
                 else
@@ -171,16 +175,17 @@ namespace PSK.UserComponent
                     if (vertifyuser.pid != this.PID || vertifyuser.pwd != pwd_hash_aes)
                     {
                         UserPwdVertifyFailEvent?.Invoke(this);
-                        return null;
+                        return;
                     }
                 }
                 int uid = (from t in db.Users.ToList()
                            where PID == t.pid && pwd_hash_aes == t.pwd
                            select t).ToList().ElementAt(0).ID;
+                
+                Core.Current.Regist(new CurrentUser((from t in db.Recordings.ToList()
+                                                     where t.uid == uid
+                                                     select t).ToList(), PID, PWD_hash, uid));
                 UserVertifyEvent?.Invoke(this);
-                return new CurrentUser((from t in db.Recordings.ToList()
-                                        where t.uid == uid
-                                        select t).ToList(), PID, PWD_hash, uid);
             }
         }
 

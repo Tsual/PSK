@@ -69,13 +69,52 @@ namespace PSK.Models
     public class Info
     {
         public Recording Record { get; set; }
-        public string SerializableString { get; set; }
-        public string Detail { get; set; }
+
+        string _DetailName = "";
+        public string DetailName
+        {
+            get { return _DetailName; }
+            set
+            {
+                _DetailName = value;
+                if (Core.Current.CurrentUser != null)
+                {
+                    var _old = Core.Current.CurrentUser.Recordings.IndexOf(this);
+                    Core.Current.CurrentUser.Recordings[_old] = this;
+                }
+            }
+        }
+
+        string _Detail = "";
+        public string Detail
+        {
+            get { return _Detail; }
+            set
+            {
+                _Detail = value;
+                if(Core.Current.CurrentUser!=null)
+                {
+                    var _old = Core.Current.CurrentUser.Recordings.IndexOf(this);
+                    Core.Current.CurrentUser.Recordings[_old] = this;
+                }
+            }
+        }
+
+        public bool Switchbool { get; set; }
+
 
         public Recording Encode(CurrentUser user)
         {
             Record = new Recording();
-            Record.key = user.Encode(SerializableString);
+            Record.key = user.Encode(DetailName);
+            Record.value = user.Encode(Detail);
+            Record.uid = user.UID;
+            return Record;
+        }
+
+        public Recording Modify(CurrentUser user)
+        {
+            Record.key = user.Encode(DetailName);
             Record.value = user.Encode(Detail);
             Record.uid = user.UID;
             return Record;
@@ -86,10 +125,10 @@ namespace PSK.Models
 
         }
 
-        public Info(Recording record,CurrentUser user)
+        public Info(Recording record, CurrentUser user)
         {
             this.Record = record;
-            this.SerializableString = user.Decode(record.key);
+            this.DetailName = user.Decode(record.key);
             this.Detail = user.Decode(record.value);
         }
     }

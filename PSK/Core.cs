@@ -188,7 +188,7 @@ namespace PSK
 
 
 
-            //var user = LoginUser.CreateObj("test", "fdfadfadsf");
+            //var user = LoginUser.CreateObj("test", "test");
             //user.UserNotFoundEvent += (obj) => { return LoginUser.UserNotFoundReceipt.Create; };
             //var cuser = user.TryLogin();
             //var item = new Info() { Title = "ffff", Detail = "detail" };
@@ -222,15 +222,41 @@ namespace PSK
 
     }
 
-    public class Core
+    public class Core : iCore
     {
-        public static CurrentUser CU { get; private set; }
-        public static LoginUser LU { get; private set; }
-
+        static Core innerobj;
         static Core()
         {
 
         }
+
+        public static iCore Current
+        {
+            get
+            {
+                if (innerobj == null)
+                    innerobj = new Core();
+                return innerobj;
+            }
+        }
+
+
+        public CurrentUser CurrentUser { get; private set; }
+
+        public bool isRegisted => innerobj == null ? false : true;
+
+        public void Regist(CurrentUser user) => CurrentUser = user ?? throw new NullReferenceException();
+
+        public void Unsubscribe() => CurrentUser = null;
+
+    }
+
+    public interface iCore
+    {
+        void Regist(CurrentUser user);
+        void Unsubscribe();
+        CurrentUser CurrentUser { get; }
+        bool isRegisted { get; }
     }
 
 }

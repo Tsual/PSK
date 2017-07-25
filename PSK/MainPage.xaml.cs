@@ -52,7 +52,6 @@ namespace PSK
 
 
             LoginUser _lu = LoginUser.CreateObj(_pid, _pwd);
-            CurrentUser _cu = null;
             if (CB_CreateNew.IsChecked == null ? false : (bool)CB_CreateNew.IsChecked)
             {
                 _lu.UserNotFoundEvent += (obj) => { return LoginUser.UserNotFoundReceipt.Create; };
@@ -82,7 +81,7 @@ namespace PSK
             };
             _lu.UserVertifyEvent += (obj) =>
             {
-                Frame.Navigate(typeof(Userpage), _cu);
+                Frame.Navigate(typeof(ctrltestpage));
             };
             _lu.TryLogin();
 
