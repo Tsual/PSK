@@ -94,7 +94,7 @@ namespace PSK
             return true;
         }
 
-        public static string EncryptwithAppFI(string metaStr)
+        public static string EncryptwithAppaesobj(string metaStr)
         {
             var aesobj = new Helper.AESProvider(_appiv, _appkey);
             return aesobj.Encrypt(metaStr);

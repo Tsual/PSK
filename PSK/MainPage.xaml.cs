@@ -30,6 +30,7 @@ namespace PSK
             this.InitializeComponent();
         }
 
+
         private async void Button_ClickAsync(object sender, RoutedEventArgs e)
         {
             string _pid = TB_UserName.Text;
@@ -52,41 +53,41 @@ namespace PSK
 
 
             LoginUser _lu = LoginUser.CreateObj(_pid, _pwd);
+            LoginUser.UserNotFoundReceipt _Receipt = LoginUser.UserNotFoundReceipt.None;
             if (CB_CreateNew.IsChecked == null ? false : (bool)CB_CreateNew.IsChecked)
             {
-                _lu.UserNotFoundEvent += (obj) => { return LoginUser.UserNotFoundReceipt.Create; };
+                _Receipt = LoginUser.UserNotFoundReceipt.Create;
             }
             else
             {
-                _lu.UserNotFoundEvent +=  (obj) =>
-                {
+                _lu.UserNotFoundEvent += (obj) =>
+               {
 
-                    Task.Run(async () =>
-                   {
-                       MessageDialog md = new MessageDialog("we can't find your info", "Error");
-                       md.Commands.Add(new UICommand("ok"));
-                       await md.ShowAsync();
-                   });
-
-                   return LoginUser.UserNotFoundReceipt.None;
-
-
+                   ShowMesAsync("we can't find your info");
+                   SubmitBTN.Content = new TextBlock() { Text = "Submit" };
                };
             }
-            _lu.UserPwdVertifyFailEvent += async (obj) =>
-            {
-                MessageDialog md = new MessageDialog("password vertify failed", "Error");
-                md.Commands.Add(new UICommand("ok"));
-                await md.ShowAsync();
-            };
+            _lu.UserPwdVertifyFailEvent += (obj) =>
+           {
+               SubmitBTN.Content = new TextBlock() { Text = "Submit" };
+               ShowMesAsync("password vertify failed");
+           };
             _lu.UserVertifyEvent += (obj) =>
             {
                 Frame.Navigate(typeof(Userpage));
             };
-            _lu.TryLogin();
+            SubmitBTN.Content = new LoadingCtrl();
+            await _lu.TryLoginAsync(_Receipt);
+
 
         }
 
+        private static async void ShowMesAsync(string mes)
+        {
+            MessageDialog md = new MessageDialog(mes, "Error");
+            md.Commands.Add(new UICommand("ok"));
+            await md.ShowAsync();
+        }
 
     }
 }

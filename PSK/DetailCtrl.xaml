@@ -9,58 +9,41 @@
     d:DesignHeight="50"
     d:DesignWidth="600">
 
-    <Grid Background="White"
-          >
-        <Grid x:Name="GR" Visibility="Collapsed">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock x:Name="GR_tb1"
-                       Text="{x:Bind InfoItem.DetailName}"
-                       VerticalAlignment="Center"
-                       FontSize="15"></TextBlock>
-            <TextBlock x:Name="GR_tb2"
-                       Grid.ColumnSpan="3"
-                       Grid.Column="1"
-                       Text="{x:Bind InfoItem.Detail}"
-                       VerticalAlignment="Center"
-                       FontSize="15"></TextBlock>
-        </Grid>
-        <Grid x:Name="GR_Modify"
+
+    <Grid x:Name="GR_Modify"
               
               >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="{x:Bind ItemIndex}"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="{x:Bind ItemIndex}"
+                       x:Name="GR_Modify_tb"
                        FontSize="20"
                        VerticalAlignment="Center"
                        Margin="10,5,10,5"
                        MinWidth="20"/>
-            <TextBox x:Name="GR_Modify_tb1"
+        <TextBox x:Name="GR_Modify_tb1"
                      Grid.Column="1"
-                       Text="{x:Bind InfoItem.DetailName}"
+                       Text="{x:Bind InfoItem.DetailName,Mode=TwoWay}"
                        VerticalAlignment="Center"
-                     FontSize="15" BorderThickness="0,0,0,2"
+                     FontSize="15" BorderThickness="0,0,0,1"
                      VerticalContentAlignment="Bottom"
                      Margin="5"></TextBox>
-            <TextBox x:Name="GR_Modify_tb2"
+        <TextBox x:Name="GR_Modify_tb2"
                        Grid.ColumnSpan="2"
                        Grid.Column="2"
-                       Text="{x:Bind InfoItem.Detail}"
+                       Text="{x:Bind InfoItem.Detail,Mode=TwoWay}"
                        VerticalAlignment="Center"
                      FontSize="15"
-                     BorderThickness="0,0,0,2"
+                     BorderThickness="0,0,0,1"
                      VerticalContentAlignment="Bottom"
                      Margin="15,5,5,5"></TextBox>
-        </Grid>
-
-
     </Grid>
+
+
+
 </UserControl>

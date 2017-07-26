@@ -80,7 +80,7 @@ namespace PSK.Models
                 if (Core.Current.CurrentUser != null)
                 {
                     var _old = Core.Current.CurrentUser.Recordings.IndexOf(this);
-                    Core.Current.CurrentUser.Recordings[_old] = this;
+                    if (_old > 0) Core.Current.CurrentUser.Recordings[_old] = this;
                 }
             }
         }
@@ -95,7 +95,7 @@ namespace PSK.Models
                 if (Core.Current.CurrentUser != null)
                 {
                     var _old = Core.Current.CurrentUser.Recordings.IndexOf(this);
-                    Core.Current.CurrentUser.Recordings[_old] = this;
+                    if (_old > 0) Core.Current.CurrentUser.Recordings[_old] = this;
                 }
             }
         }

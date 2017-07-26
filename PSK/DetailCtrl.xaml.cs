@@ -53,7 +53,20 @@ namespace PSK
             InfoItem.Switchbool = !InfoItem.Switchbool;
         }
 
+        public void ChangeState(bool b)
+        {
+            InfoItem.Switchbool = b;
+        }
+
         public int ItemIndex { get; set; }
+        public bool isEmpty
+        {
+            get
+            {
+                if (GR_Modify_tb1.Text == "" && GR_Modify_tb2.Text == "") return true;
+                else return false;
+            }
+        }
 
         public DetailCtrl()
         {

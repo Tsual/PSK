@@ -148,51 +148,70 @@ namespace PSK.UserComponent
             return user;
         }
 
-        public void TryLogin()
+        public async Task TryLoginAsync(UserNotFoundReceipt e)
         {
-            if (UserNotFoundEvent == null) UserNotFoundEvent += (obj) => { return UserNotFoundReceipt.None; };
 
             using (APPDbContext db = new APPDbContext())
             {
-                var pwd_hash_aes = AssetsController.EncryptwithAppFI(PWD_hash);
-                var iuserlist = from t in db.Users.ToList()
-                                where t.pid == PID
-                                select t;
-                var userlist = iuserlist.ToList();
-                if (userlist.Count == 0)
-                {
-                    switch (UserNotFoundEvent(this))
-                    {
-                        case UserNotFoundReceipt.Create:
-                            User dbuser = new User()
-                            {
-                                pid = PID,
-                                pwd = pwd_hash_aes
-                            };
-                            db.Entry(dbuser).State = Microsoft.EntityFrameworkCore.EntityState.Added;
-                            db.SaveChanges();
-                            break;
-                        case UserNotFoundReceipt.None:
-                            return;
-                    }
-                }
-                else
-                {
-                    var vertifyuser = userlist[0];
-                    if (vertifyuser.pid != this.PID || vertifyuser.pwd != pwd_hash_aes)
-                    {
-                        UserPwdVertifyFailEvent?.Invoke(this);
-                        return;
-                    }
-                }
-                int uid = (from t in db.Users.ToList()
-                           where PID == t.pid && pwd_hash_aes == t.pwd
-                           select t).ToList().ElementAt(0).ID;
+                bool b_UserVertifyEvent = false;
+                bool b_UserPwdVertifyFailEvent = false;
+                bool b_UserNotFoundEvent = false;
 
-                Core.Current.Regist(new CurrentUser((from t in db.Recordings.ToList()
-                                                     where t.uid == uid
-                                                     select t).ToList(), PID, PWD_hash, uid));
-                UserVertifyEvent?.Invoke(this);
+                await Task.Run(() =>
+                {
+
+
+                    string pwd_hash_aes = AssetsController.EncryptwithAppaesobj(PWD_hash);
+
+                    var iuserlist = from t in db.Users.ToList()
+                                    where t.pid == PID
+                                    select t;
+                    var userlist = iuserlist.ToList();
+                    if (userlist.Count == 0)
+                    {
+                        switch (e)
+                        {
+                            case UserNotFoundReceipt.Create:
+                                User dbuser = new User()
+                                {
+                                    pid = PID,
+                                    pwd = pwd_hash_aes
+                                };
+                                db.Entry(dbuser).State = Microsoft.EntityFrameworkCore.EntityState.Added;
+                                db.SaveChanges();
+                                break;
+                            case UserNotFoundReceipt.None:
+                                b_UserNotFoundEvent = true;
+                                return;
+                        }
+                    }
+                    else
+                    {
+                        var vertifyuser = userlist[0];
+                        if (vertifyuser.pid != this.PID || vertifyuser.pwd != pwd_hash_aes)
+                        {
+                            b_UserPwdVertifyFailEvent = true;
+                        }
+                    }
+                    int uid = (from t in db.Users.ToList()
+                               where PID == t.pid && pwd_hash_aes == t.pwd
+                               select t).ToList().ElementAt(0).ID;
+
+
+                    Core.Current.Regist(new CurrentUser((from t in db.Recordings.ToList()
+                                                         where t.uid == uid
+                                                         select t).ToList(), PID, PWD_hash, uid));
+                    b_UserVertifyEvent = true;
+                });
+
+
+
+                if (b_UserPwdVertifyFailEvent)
+                    UserPwdVertifyFailEvent?.Invoke(this);
+                if (b_UserVertifyEvent)
+                    UserVertifyEvent?.Invoke(this);
+                if (b_UserNotFoundEvent)
+                    UserNotFoundEvent?.Invoke(this);
             }
         }
 
@@ -207,7 +226,8 @@ namespace PSK.UserComponent
         //public event UserCreatePidExistEventHandler UserCreatePidExistEvent;
 
         public enum UserNotFoundReceipt { Create, None }
-        public delegate UserNotFoundReceipt UserNotFoundEventHandler(LoginUser user);
+        public delegate void UserNotFoundEventHandler(LoginUser user);
         public event UserNotFoundEventHandler UserNotFoundEvent;
+
     }
 }

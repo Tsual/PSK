@@ -3,22 +3,26 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:PSK"
-    xmlns:model="using:PSK.Models"
+    xmlns:core="using:psk"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel x:Name="_StackPanel"
-                    Padding="40"
-                    MaxWidth="750"
-                    Loaded="_StackPanel_Loaded">
-            
-        </StackPanel>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" GotFocus="Grid_GotFocus">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Padding="40" MaxWidth="750" Grid.Row="1">
+            <StackPanel x:Name="_StackPanel"
+                    Loaded="_StackPanel_Loaded"/>
+        </ScrollViewer>
 
-        <StackPanel Orientation="Horizontal">
-            <Button Content="back" Click="Button_Click"/>
-            <Button Content="changereadstate" Click="Button_Click_1"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="{x:Bind PID}" Margin="5" VerticalAlignment="Center"/>
+            <Button Content="back" Click="Button_Click"  Margin="5"/>
+            <Button Content="modify" Click="Button_Click_1"  Margin="5"/>
+            <Button Content="new" Click="Button_Click_2"  Margin="5"/>
         </StackPanel>
         
     </Grid>
