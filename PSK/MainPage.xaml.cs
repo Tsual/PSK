@@ -81,7 +81,7 @@ namespace PSK
             };
             _lu.UserVertifyEvent += (obj) =>
             {
-                Frame.Navigate(typeof(ctrltestpage));
+                Frame.Navigate(typeof(Userpage));
             };
             _lu.TryLogin();
 

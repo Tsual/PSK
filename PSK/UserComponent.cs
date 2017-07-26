@@ -74,23 +74,30 @@ namespace PSK.UserComponent
         {
             get
             {
-                var ivhash = new Helper.HashProvider(HashAlgorithmNames.Md5);
-                byte[] _iv = ivhash.Hashbytes(PID);
+                if (_AESobj == null)
+                {
+                    var ivhash = new Helper.HashProvider(HashAlgorithmNames.Md5);
+                    byte[] _iv = ivhash.Hashbytes(PID);
 
-                string ranstr = AssetsController.getLocalSequenceString(UID);
-                string kstr1 = ranstr + PWD_hash;
-                string kstr2 = PWD_hash + ranstr;
+                    string ranstr = AssetsController.getLocalSequenceString(UID);
+                    string kstr1 = ranstr + PWD_hash;
+                    string kstr2 = PWD_hash + ranstr;
 
-                var keyhash = new Helper.HashProvider();
-                byte[] _key = new byte[128];
-                byte[] btar = keyhash.Hashbytes(kstr1);
-                Array.Copy(btar, 0, _key, 0, 64);
-                btar = keyhash.Hashbytes(kstr2);
-                Array.Copy(btar, 0, _key, 64, 64);
+                    var keyhash = new Helper.HashProvider();
+                    byte[] _key = new byte[128];
+                    byte[] btar = keyhash.Hashbytes(kstr1);
+                    Array.Copy(btar, 0, _key, 0, 64);
+                    btar = keyhash.Hashbytes(kstr2);
+                    Array.Copy(btar, 0, _key, 64, 64);
+                    _AESobj = new Helper.AESProvider(_iv, _key);
 
-                return new Helper.AESProvider(_iv, _key);
+                }
+
+
+                return _AESobj;
             }
         }
+        Helper.AESProvider _AESobj;
 
         public ObservableCollection<Info> Recordings { get => recordings; }
         private ObservableCollection<Info> recordings = new ObservableCollection<Info>();
@@ -181,7 +188,7 @@ namespace PSK.UserComponent
                 int uid = (from t in db.Users.ToList()
                            where PID == t.pid && pwd_hash_aes == t.pwd
                            select t).ToList().ElementAt(0).ID;
-                
+
                 Core.Current.Regist(new CurrentUser((from t in db.Recordings.ToList()
                                                      where t.uid == uid
                                                      select t).ToList(), PID, PWD_hash, uid));

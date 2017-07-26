@@ -92,7 +92,7 @@ namespace PSK.Models
             set
             {
                 _Detail = value;
-                if(Core.Current.CurrentUser!=null)
+                if (Core.Current.CurrentUser != null)
                 {
                     var _old = Core.Current.CurrentUser.Recordings.IndexOf(this);
                     Core.Current.CurrentUser.Recordings[_old] = this;
@@ -100,8 +100,16 @@ namespace PSK.Models
             }
         }
 
-        public bool Switchbool { get; set; }
+        public bool Switchbool
+        {
+            get { return _Switchbool; }
+            set { _Switchbool = value; SwitchChangedEvent?.Invoke(this); }
+        }
+        private bool _Switchbool = false;
 
+        public delegate void SwitchChangedEventHandler(Info f);
+        public event SwitchChangedEventHandler SwitchChangedEvent;
+        public bool isSwitchChangedEventNull { get { return SwitchChangedEvent == null ? true : false; } }
 
         public Recording Encode(CurrentUser user)
         {

@@ -28,10 +28,23 @@ namespace PSK
             this.InitializeComponent();
 
             Info obj = Core.Current.CurrentUser.Recordings[0];
-            DetailCtrl ctrl = new DetailCtrl() { InfoItem = obj };
+            DetailCtrl ctrl = new DetailCtrl() { InfoItem = obj , ItemIndex=1};
+
+            _stackpanel.Children.Add(ctrl);
+             obj = Core.Current.CurrentUser.Recordings[1];
+             ctrl = new DetailCtrl() { InfoItem = obj ,ItemIndex=2};
 
             _stackpanel.Children.Add(ctrl);
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var t in _stackpanel.Children)
+            {
+                var tobj = (DetailCtrl)t;
+                tobj.InfoItem.Switchbool = !tobj.InfoItem.Switchbool;
+            }
         }
     }
 }

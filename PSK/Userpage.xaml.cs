@@ -29,16 +29,39 @@ namespace PSK
             this.InitializeComponent();
         }
 
-        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Core.Current.Unsubscribe();
             if (Frame.CanGoBack)
                 Frame.GoBack();
+        }
+
+        private void _StackPanel_Loaded(object sender, RoutedEventArgs e)
+        {
+            var _list = Core.Current.CurrentUser.Recordings;
+            if(_list.Count==0)
+            {
+                TextBlock tb = new TextBlock() { Text = "没有记录", HorizontalAlignment = HorizontalAlignment.Center };
+                _StackPanel.Children.Add(tb);
+            }
+            else
+            {
+                for(int i=0;i<_list.Count;i++)
+                {
+                    var obj = _list[i];
+                    DetailCtrl ctrl = new DetailCtrl() { InfoItem = obj, ItemIndex = i+1 };
+                    _StackPanel.Children.Add(ctrl);
+                }
+            }
+            Button_Click_1(null, null);
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            foreach (var t in _StackPanel.Children.ToList())
+            {
+                ((DetailCtrl)t).ChangeState();
+            }
         }
     }
 }

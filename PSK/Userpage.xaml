@@ -9,44 +9,17 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.Resources>
-            <DataTemplate x:Key="ListItem_Templete_Modify" x:DataType="model:Info">
-                <Grid Margin="0,0,0,10"
-                      HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <TextBox Text="{x:Bind DetailName,Mode=TwoWay }"
-                               Grid.Column="0"
-                               FontSize="18"
-                             IsEnabled="{x:Bind Switchbool}"
-                             BorderThickness="0,0,0,1"></TextBox>
-                    <ToggleSwitch Grid.Column="1"
-                                  Margin="10,0,0,0"
-                                  OnContent="修改"
-                                  OffContent="修改"
-                                  IsOn="{x:Bind Switchbool,Mode=TwoWay}"
-                                  Toggled="ToggleSwitch_Toggled"></ToggleSwitch>
-                    <TextBox Text="{x:Bind Detail , Mode=TwoWay}"
-                               Grid.ColumnSpan="2"
-                               Grid.Row="2"
-                               FontSize="14"
-                               Margin="5"
-                             IsEnabled="{x:Bind Switchbool}"
-                             BorderThickness="0,0,0,1"></TextBox>
+        <StackPanel x:Name="_StackPanel"
+                    Padding="40"
+                    MaxWidth="750"
+                    Loaded="_StackPanel_Loaded">
+            
+        </StackPanel>
 
-                </Grid>
-            </DataTemplate>
-        </Grid.Resources>
-        <ListView x:Name="_ListView" 
-                  ItemsSource="{x:Bind ItemCollection }"
-                  ItemTemplate="{StaticResource ListItem_Templete_Modify}"></ListView>
-        <Button Click="Button_Click" Content="back"/>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="back" Click="Button_Click"/>
+            <Button Content="changereadstate" Click="Button_Click_1"/>
+        </StackPanel>
+        
     </Grid>
 </Page>
