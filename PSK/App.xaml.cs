@@ -48,7 +48,7 @@ namespace PSK
             //var item = new Info() {  Detail = "testdetail" ,DetailName="testdetailname"};
             //Core.Current.CurrentUser.Recordings.Add(item);
 
-            int a = 0;
+            //int a = 0;
 
 
         }

@@ -14,9 +14,9 @@ namespace PSK
 {
     public class AssetsController
     {
-        static string STR_FS = "firstinstall";
-        static string STR_APP_IV = "appiv";
-        static string STR_APP_KEY = "appkey";
+        const string STR_FS = "firstinstall";
+        const string STR_APP_IV = "appiv";
+        const string STR_APP_KEY = "appkey";
 
         private static byte[] _appiv;
         private static byte[] _appkey;
