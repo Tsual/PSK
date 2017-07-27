@@ -111,7 +111,7 @@ namespace PSK.Models
             get { return _Switchbool; }
             set { _Switchbool = value; SwitchChangedEvent?.Invoke(this); }
         }
-        private bool _Switchbool = false;
+        private bool _Switchbool = true;
 
         public int ItemIndex { get => _ItemIndex; set => _ItemIndex = value; }
         private int _ItemIndex = 0;

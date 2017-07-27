@@ -11,7 +11,7 @@
 
 
     <Grid x:Name="GR_Modify"
-              
+              HorizontalAlignment="Stretch"
               >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -28,7 +28,7 @@
                        MinWidth="20"/>
         <TextBox x:Name="GR_Modify_tb1"
                      Grid.Column="1"
-                       Text="{x:Bind InfoItem.DetailName,Mode=TwoWay}"
+                       Text="{x:Bind DetailName,Mode=TwoWay}"
                        VerticalAlignment="Center"
                      FontSize="15" BorderThickness="0,0,0,1"
                      VerticalContentAlignment="Bottom"
@@ -36,7 +36,7 @@
         <TextBox x:Name="GR_Modify_tb2"
                        Grid.ColumnSpan="2"
                        Grid.Column="2"
-                       Text="{x:Bind InfoItem.Detail,Mode=TwoWay}"
+                       Text="{x:Bind Detail,Mode=TwoWay}"
                        VerticalAlignment="Center"
                      FontSize="15"
                      BorderThickness="0,0,0,1"

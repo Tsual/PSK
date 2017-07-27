@@ -42,91 +42,16 @@ namespace PSK
                 Frame.GoBack();
         }
 
-        private void _StackPanel_Loaded(object sender, RoutedEventArgs e)
-        {
-            var _list = Core.Current.CurrentUser.Recordings;
-            if (_list.Count == 0)
-            {
-                TextBlock tb = new TextBlock() { Text = "no record", HorizontalAlignment = HorizontalAlignment.Center };
-                GridPanel.Children.Add(tb);
-            }
-            foreach (var t in RecordingView.Items.ToList())
-            {
-                (t as DetailCtrl)?.ChangeState(true);
-            }
 
 
-            //var ran = new Helper.RandomGenerator();
-            //for (int i = 0; i < 1000; i++)
-            //{
-            //    ItemCollection.Add(new Info() { DetailName = ran.getRandomString(5), Detail = ran.getRandomString(30) });
-            //}
-        }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            foreach (var t in RecordingView.Items.ToList())
-            {
-                (t as DetailCtrl)?.ChangeState();
-            }
-        }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            foreach (var t in RecordingView.Items.ToList())
-            {
-                ((DetailCtrl)t).ChangeState(false);
-            }
-            var info = new Models.Info() { Detail = "", DetailName = "", Switchbool = true };
-            Core.Current.CurrentUser.Recordings.Add(info);
-            DetailCtrl ctrl = new DetailCtrl() { InfoItem = info, ItemIndex = Core.Current.CurrentUser.Recordings.Count };
-            ctrl.LostFocus += Ctrl_LostFocus;
-            RecordingView.Items.Add(ctrl);
-            ctrl.Focus(FocusState.Pointer);
 
-        }
 
-        private void Ctrl_LostFocus(object sender, RoutedEventArgs e)
-        {
-            _AddNewDetailCtrl = sender as DetailCtrl;
-        }
 
-        private void Ctrl_LostFocus_killctrl(object sender, RoutedEventArgs e)
-        {
-            var ctrl = sender as DetailCtrl;
-            if (ctrl != null)
-            {
-                if (ctrl.isEmpty)
-                {
-                    Core.Current.CurrentUser.Recordings.Remove(ctrl.InfoItem);
-                    RecordingView.Items.Remove(ctrl);
-                }
-            }
-        }
 
-        private DetailCtrl _AddNewDetailCtrl;
 
-        private void Grid_GotFocus(object sender, RoutedEventArgs e)
-        {
-            var _name = (e.OriginalSource as FrameworkElement).Name;
-            if (_AddNewDetailCtrl == null) return;
 
-            if (!((e.OriginalSource as FrameworkElement).Parent as FrameworkElement).Parent.Equals(_AddNewDetailCtrl))
-            {
-                if (_AddNewDetailCtrl.isEmpty)
-                {
-                    Core.Current.CurrentUser.Recordings.Remove(_AddNewDetailCtrl.InfoItem);
-                    RecordingView.Items.Remove(_AddNewDetailCtrl);
-                }
-                else
-                {
-                    _AddNewDetailCtrl.LostFocus -= Ctrl_LostFocus;
-                    _AddNewDetailCtrl.LostFocus += Ctrl_LostFocus_killctrl;
-                    _AddNewDetailCtrl.ChangeState(false);
-                }
-            }
-            _AddNewDetailCtrl = null;
-        }
 
         private async void Button_Click_3(object sender, RoutedEventArgs e)
         {
@@ -147,6 +72,22 @@ namespace PSK
         {
             if (TB_Password.Password != "") ConfirmBTN.IsEnabled = true;
             else ConfirmBTN.IsEnabled = false;
+        }
+
+        private void btn_new_click(object sender, RoutedEventArgs e)
+        {
+            Info _new = new Info() { Detail = "", DetailName = "", Switchbool = false };
+
+        }
+
+        private void btn_modify_click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Grid_GotFocus(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

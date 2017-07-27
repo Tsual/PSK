@@ -56,7 +56,11 @@ namespace PSK
             InfoItem.Switchbool = b;
         }
 
+
+        public string DetailName { get; set; }
+        public string Detail { get; set; }
         public int ItemIndex { get; set; }
+
         public bool isEmpty
         {
             get
