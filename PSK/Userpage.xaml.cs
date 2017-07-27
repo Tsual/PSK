@@ -26,11 +26,13 @@ namespace PSK
     /// </summary>
     public sealed partial class Userpage : Page
     {
-        public ObservableCollection<Models.Info> ItemCollection = Core.Current.CurrentUser.Recordings;
+        public ObservableCollection<Info> ItemCollection = Core.Current.CurrentUser.Recordings;
         public string PID { get { return Core.Current.CurrentUser.PID; } }
         public Userpage()
         {
             this.InitializeComponent();
+
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -45,7 +47,7 @@ namespace PSK
             var _list = Core.Current.CurrentUser.Recordings;
             if (_list.Count == 0)
             {
-                TextBlock tb = new TextBlock() { Text = "没有记录", HorizontalAlignment = HorizontalAlignment.Center };
+                TextBlock tb = new TextBlock() { Text = "no record", HorizontalAlignment = HorizontalAlignment.Center };
                 _StackPanel.Children.Add(tb);
             }
             else
@@ -59,6 +61,13 @@ namespace PSK
                 }
             }
             Button_Click_1(null, null);
+
+
+            //var ran = new Helper.RandomGenerator();
+            //for (int i = 0; i < 1000; i++)
+            //{
+            //    ItemCollection.Add(new Info() { DetailName = ran.getRandomString(5), Detail = ran.getRandomString(30) });
+            //}
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -107,7 +116,6 @@ namespace PSK
         private void Grid_GotFocus(object sender, RoutedEventArgs e)
         {
             var _name = (e.OriginalSource as FrameworkElement).Name;
-            Debug.WriteLine(_name + "..get focus");
             if (_AddNewDetailCtrl == null) return;
 
             if (!((e.OriginalSource as FrameworkElement).Parent as FrameworkElement).Parent.Equals(_AddNewDetailCtrl))
