@@ -127,7 +127,7 @@ namespace PSK.UserComponent
         public string PID { get; set; }
         public string PWD_hash { get; set; }
 
-        protected LoginUser()
+        private LoginUser()
         {
 
         }

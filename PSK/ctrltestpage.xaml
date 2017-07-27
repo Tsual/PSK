@@ -12,6 +12,6 @@
         <StackPanel x:Name="_stackpanel">
             
         </StackPanel>
-        <Button Content="btn" Click="Button_Click"/>
+        <Button Content="btn" Click="Button_Click"  />
     </Grid>
 </Page>
