@@ -34,7 +34,14 @@ namespace PSK
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-
+            //using (APPDbContext db = new APPDbContext())
+            //{
+            //    foreach (var t in db.Users.ToList())
+            //        db.Entry(t).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+            //    foreach (var t in db.Recordings.ToList())
+            //        db.Entry(t).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+            //    db.SaveChanges();
+            //}
 
             //PSK.Models.ModelController.test();
             //AssetsController.test();

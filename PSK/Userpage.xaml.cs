@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PSK.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -90,9 +92,9 @@ namespace PSK
         private void Ctrl_LostFocus_killctrl(object sender, RoutedEventArgs e)
         {
             var ctrl = sender as DetailCtrl;
-            if(ctrl!=null)
+            if (ctrl != null)
             {
-                if(ctrl.isEmpty)
+                if (ctrl.isEmpty)
                 {
                     Core.Current.CurrentUser.Recordings.Remove(ctrl.InfoItem);
                     _StackPanel.Children.Remove(ctrl);
@@ -108,7 +110,7 @@ namespace PSK
             Debug.WriteLine(_name + "..get focus");
             if (_AddNewDetailCtrl == null) return;
 
-            if(!((e.OriginalSource as FrameworkElement).Parent as FrameworkElement).Parent.Equals(_AddNewDetailCtrl))
+            if (!((e.OriginalSource as FrameworkElement).Parent as FrameworkElement).Parent.Equals(_AddNewDetailCtrl))
             {
                 if (_AddNewDetailCtrl.isEmpty)
                 {
@@ -123,6 +125,27 @@ namespace PSK
                 }
             }
             _AddNewDetailCtrl = null;
+        }
+
+        private async void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            ConfirmBTN.Content = new LoadingCtrl() { ContentString = "Processing" };
+            var spicker = new FileSavePicker();
+            spicker.FileTypeChoices.Add("XML", new List<String>() { ".xml" });
+            var sfs = await spicker.PickSaveFileAsync();
+            await DataPacManager.SerializeAsync(sfs, TB_Password.Password);
+            if ((bool)Export_cb.IsChecked)
+            {
+                Core.Current.DeleteUser();
+                Core.Current.Unsubscribe();
+                Frame.Navigate(typeof(MainPage));
+            }
+        }
+
+        private void TB_Password_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (TB_Password.Password != "") ConfirmBTN.IsEnabled = true;
+            else ConfirmBTN.IsEnabled = false;
         }
     }
 }

@@ -10,7 +10,7 @@
     d:DesignWidth="400">
 
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <ProgressRing IsActive="True" VerticalAlignment="Center"/>
-        <TextBlock Text="Loading" VerticalAlignment="Center"/>
+        <ProgressRing IsActive="True" VerticalAlignment="Center" Margin="0,0,10,0"/>
+        <TextBlock Text="{x:Bind ContentString}" VerticalAlignment="Center"/>
     </StackPanel>
 </UserControl>

@@ -14,8 +14,11 @@
             <TextBox Header="UserName" x:Name="TB_UserName" BorderThickness="0,0,0,1" Margin="10"></TextBox>
             <PasswordBox Header="Password" x:Name="TB_Password" BorderThickness="0,0,0,1" Margin="10"></PasswordBox>
             <CheckBox Content="Auto Create New User" x:Name="CB_CreateNew" Margin="10"></CheckBox>
-            <Button x:Name="SubmitBTN" Content="Submit" Click="Button_ClickAsync" HorizontalAlignment="Center" Margin="10"></Button>
-
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="SubmitBTN" Content="Submit" Click="Button_ClickAsync" Margin="10"></Button>
+                <Button x:Name="ImportBTN" Content="Import" Click="ImportBTN_Click" Margin="10"/>
+            </StackPanel>
         </StackPanel>
 
 

@@ -102,6 +102,9 @@
     <Compile Include="DetailCtrl.xaml.cs">
       <DependentUpon>DetailCtrl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ImportPage.xaml.cs">
+      <DependentUpon>ImportPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LoadingCtrl.xaml.cs">
       <DependentUpon>LoadingCtrl.xaml</DependentUpon>
     </Compile>
@@ -147,6 +150,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DetailCtrl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ImportPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

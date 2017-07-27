@@ -19,9 +19,13 @@ namespace PSK
 {
     public sealed partial class LoadingCtrl : UserControl
     {
+        private string _ContentString = "Loading";
+        public string ContentString { get => _ContentString; set => _ContentString = value; }
+
         public LoadingCtrl()
         {
             this.InitializeComponent();
         }
+
     }
 }

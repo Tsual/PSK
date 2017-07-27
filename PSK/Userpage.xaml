@@ -21,8 +21,19 @@
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock Text="{x:Bind PID}" Margin="5" VerticalAlignment="Center"/>
             <Button Content="back" Click="Button_Click"  Margin="5"/>
-            <Button Content="modify" Click="Button_Click_1"  Margin="5"/>
             <Button Content="new" Click="Button_Click_2"  Margin="5"/>
+            <Button Content="Export" Margin="5">
+                <Button.Flyout>
+                    <Flyout>
+                        <StackPanel >
+                            <PasswordBox Header="File key (protect your password and data)" x:Name="TB_Password" BorderThickness="0,0,0,1" Margin="10" PasswordChanged="TB_Password_PasswordChanged"></PasswordBox>
+                            <CheckBox x:Name="Export_cb" Content="Delete data when finished" Margin="10,20,10,0"/>
+                            <Button IsEnabled="False" x:Name="ConfirmBTN" Content="Confirm" Click="Button_Click_3" HorizontalAlignment="Center" Margin="10"/>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+            <Button Content="modify" Click="Button_Click_1"  Margin="5"/>
         </StackPanel>
         
     </Grid>

@@ -89,5 +89,9 @@ namespace PSK
             await md.ShowAsync();
         }
 
+        private void ImportBTN_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(ImportPage));
+        }
     }
 }

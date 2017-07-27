@@ -239,15 +239,32 @@ namespace PSK
                 return innerobj;
             }
         }
+        private Core()
+        {
 
+        }
 
         public CurrentUser CurrentUser { get; private set; }
 
         public bool isRegisted => innerobj == null ? false : true;
 
+        public void DeleteUser()
+        {
+            using (APPDbContext db = new APPDbContext())
+            {
+                foreach (var t in CurrentUser.Recordings)
+                {
+                    db.Entry(t.Record).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+                }
+                db.Entry(db.Users.Single(b => b.ID == CurrentUser.UID)).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+                db.SaveChanges();
+            }
+        }
+
         public void Regist(CurrentUser user) => CurrentUser = user ?? throw new NullReferenceException();
 
         public void Unsubscribe() => CurrentUser = null;
+
 
     }
 
@@ -257,6 +274,7 @@ namespace PSK
         void Unsubscribe();
         CurrentUser CurrentUser { get; }
         bool isRegisted { get; }
+        void DeleteUser();
     }
 
 }
