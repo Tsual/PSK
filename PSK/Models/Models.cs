@@ -198,6 +198,12 @@ namespace PSK.Models
 
     public class DataPacManager
     {
+
+        //useage
+        //var spicker = new FileSavePicker();
+        //spicker.FileTypeChoices.Add("XML", new List<String>() { ".xml" });
+        //var sfs = await spicker.PickSaveFileAsync();
+        //await DataPacManager.SerializeAsync(sfs, "test");
         public static async Task SerializeAsync(StorageFile sf, string serkey)
         {
             if (Core.Current.CurrentUser == null) throw new Exception();
@@ -232,6 +238,7 @@ namespace PSK.Models
                 //encrypt dats
                 dat.pwd_hash = _AESobj.Encrypt(Core.Current.CurrentUser.PWD_hash);
                 dat.sertoken = _AESobj.Encrypt(ranstr);
+                dat.vertifystr = _AESobj.Encrypt(AssetsController.getLocalSequenceString(Core.Current.CurrentUser.UID));
                 List<DataPac.dRow> arr = new List<DataPac.dRow>();
                 using (APPDbContext db = new APPDbContext())
                 {
@@ -249,10 +256,15 @@ namespace PSK.Models
                     }
                 }
                 dat.dRows = arr.ToArray();
-                dat.vertifystr= AssetsController.getLocalSequenceString(Core.Current.CurrentUser.UID);
                 await dat.SerializeAsync(sf);
             });
         }
+
+        //useage
+        //var picker = new FileOpenPicker();
+        //picker.FileTypeFilter.Add(".xml");
+        //    var sf = await picker.PickSingleFileAsync();
+        //await DataPacManager.DeserializeAsync(sf, "test");@throw KeyVertifyFailException
         public static async Task DeserializeAsync(StorageFile sf, string serkey)
         {
             var dat = await DataPac.DeserializeAsync(sf);
@@ -285,21 +297,19 @@ namespace PSK.Models
                 desertoken = _AESobj.Decrypt(dat.sertoken);
             });
             if (desertoken != token) throw new KeyVertifyFailException() { _DataPac = dat };
-            await Task.Run(() =>
+            await Task.Run(() =>            //InvalidOperationException
             {
                 using (APPDbContext db = new APPDbContext())
                 {
-                    bool canfindpid = false;
-                    foreach (var t in db.Users.ToList())
-                    {
-                        if (t.pid == pid)
-                        {
-                            canfindpid = true;
-                            break;
-                        }
-                    }
                     //search user
-                    if (!canfindpid)
+                    User user = null;
+                    try
+                    {
+                        user = db.Users.Single(b => b.pid == pid);
+                    }
+                    catch (InvalidOperationException) { }
+
+                    if (user == null)
                     {
                         string pwd_hash_aes = AssetsController.EncryptwithAppaesobj(_AESobj.Decrypt(dat.pwd_hash));
                         User dbuser = new User()
@@ -308,33 +318,21 @@ namespace PSK.Models
                             pwd = pwd_hash_aes
                         };
                         db.Entry(dbuser).State = Microsoft.EntityFrameworkCore.EntityState.Added;
-                    }
-                    //get uid
-                    int uid = 0;
-                    foreach (var t in db.Users.ToList())
-                    {
-                        if (t.pid == pid)
-                            uid = t.ID;
-
+                        db.SaveChanges();
+                        user = db.Users.Single(b => b.pid == pid); ;
                     }
                     //set user sa
-                    string sstr = _AESobj.Decrypt(dat.vertifystr);
-                    var sstrobj= AssetsController.getLocalSequenceString(uid);
-                    foreach(var t in db.SA.ToList())
-                    {
-                        if(t.Data==sstrobj)
-                        {
-                            t.Data = sstr;
-                            db.Entry(t).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                            break;
-                        }
-                    }
+                    AssetsController.getLocalSequenceString(user.ID);
+                    var saobj = db.SA.Single(t => t.ID == user.ID);
+                    //saobj.Data = dat.vertifystr;
+                    saobj.Data = _AESobj.Decrypt(dat.vertifystr);
+                    db.Entry(saobj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
                     foreach (var t in dat.dRows)
                     {
                         Recording obj = new Recording()
                         {
-                            uid = uid,
+                            uid = user.ID,
                             key = _AESobj.Decrypt(t.key),
                             value = _AESobj.Decrypt(t.value)
                         };

@@ -74,7 +74,7 @@ namespace PSK
            };
             _lu.UserVertifyEvent += (obj) =>
             {
-                Frame.Navigate(typeof(ctrltestpage));
+                Frame.Navigate(typeof(Userpage));
             };
             SubmitBTN.Content = new LoadingCtrl();
             await _lu.TryLoginAsync(_Receipt);

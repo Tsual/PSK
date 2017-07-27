@@ -33,26 +33,29 @@ namespace PSK
 
         private async System.Threading.Tasks.Task Button_ClickAsync(object sender, RoutedEventArgs e)
         {
-            //DataPac dat = new DataPac()
-            //{
-            //    dRows = new DataPac.dRow[2] {
-            //        new DataPac.dRow(){ str1="aa",str2="ff"},new DataPac.dRow(){ str1="3213123",str2="f3121312f"}
-            //    },
-            //    str1 = "ffff",
-            //    str2 = "fdsafasf",
-            //    tolen = "fdsafsadf"
-            //};
-            //var picker = new FileSavePicker();
-            //picker.DefaultFileExtension = ".xml";
-            //picker.FileTypeChoices.Add("XML", new List<String>() { ".xml" });
-            //var sf = await picker.PickSaveFileAsync();
-            //await (new DataPacManager(dat)).SerializeAsync(sf);
             //int a = 0;
+            //var spicker = new FileSavePicker();
+            //spicker.FileTypeChoices.Add("XML", new List<String>() { ".xml" });
+            //var sfs = await spicker.PickSaveFileAsync();
+            //await DataPacManager.SerializeAsync(sfs, "test");
+
+
+            //using (APPDbContext db = new APPDbContext())
+            //{
+            //    foreach (var t in db.Users.ToList())
+            //        db.Entry(t).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+            //    foreach (var t in db.Recordings.ToList())
+            //        db.Entry(t).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+            //    db.SaveChanges();
+            //}
+
+
+
             //var picker = new FileOpenPicker();
             //picker.FileTypeFilter.Add(".xml");
             //var sf = await picker.PickSingleFileAsync();
-            //var t = await (new DataPacManager(null)).DeserializeAsync(sf);
-            //int a = 0;
+            //await DataPacManager.DeserializeAsync(sf, "test");
+
 
         }
 
