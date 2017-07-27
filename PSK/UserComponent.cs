@@ -18,8 +18,9 @@ namespace PSK.UserComponent
             this.PID = PID;
             this.PWD_hash = PWD_hash;
             this.UID = UID;
-            foreach (var t in list)
-                recordings.Add(new Info(t, this));
+
+            for (int i = 0; i < list.Count; i++)
+                recordings.Add(new Info(list[i], this, i + 1));
             recordings.CollectionChanged += Recordings_CollectionChanged;
         }
 
@@ -197,10 +198,11 @@ namespace PSK.UserComponent
                                where PID == t.pid && pwd_hash_aes == t.pwd
                                select t).ToList().ElementAt(0).ID;
 
+                    var rlist = (from t in db.Recordings.ToList()
+                                 where t.uid == uid
+                                 select t).ToList();
 
-                    Core.Current.Regist(new CurrentUser((from t in db.Recordings.ToList()
-                                                         where t.uid == uid
-                                                         select t).ToList(), PID, PWD_hash, uid));
+                    Core.Current.Regist(new CurrentUser(rlist, PID, PWD_hash, uid));
                     b_UserVertifyEvent = true;
                 });
 

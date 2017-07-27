@@ -74,6 +74,7 @@ namespace PSK.Models
     public class Info
     {
         public Recording Record { get; set; }
+        public Info _This { get { return this; } }
 
         string _DetailName = "";
         public string DetailName
@@ -112,9 +113,14 @@ namespace PSK.Models
         }
         private bool _Switchbool = false;
 
+        public int ItemIndex { get => _ItemIndex; set => _ItemIndex = value; }
+        private int _ItemIndex = 0;
+
         public delegate void SwitchChangedEventHandler(Info f);
         public event SwitchChangedEventHandler SwitchChangedEvent;
         public bool isSwitchChangedEventNull { get { return SwitchChangedEvent == null ? true : false; } }
+
+
 
         public Recording Encode(CurrentUser user)
         {
@@ -143,6 +149,14 @@ namespace PSK.Models
             this.Record = record;
             this.DetailName = user.Decode(record.key);
             this.Detail = user.Decode(record.value);
+        }
+
+        public Info(Recording record, CurrentUser user,int index)
+        {
+            this.Record = record;
+            this.DetailName = user.Decode(record.key);
+            this.Detail = user.Decode(record.value);
+            this.ItemIndex = index;
         }
     }
 

@@ -31,12 +31,10 @@ namespace PSK
                     _InfoItem = value;
                     if (_InfoItem.isSwitchChangedEventNull)
                     {
-                        Debug.WriteLine("BNV stte ");
                         _InfoItem.SwitchChangedEvent += (info) =>
                         {
                             GR_Modify_tb1.IsReadOnly = !_InfoItem.Switchbool;
                             GR_Modify_tb2.IsReadOnly = !_InfoItem.Switchbool;
-                            Debug.WriteLine("invoke GRstate change");
                         };
                     }
                 }

@@ -48,19 +48,12 @@ namespace PSK
             if (_list.Count == 0)
             {
                 TextBlock tb = new TextBlock() { Text = "no record", HorizontalAlignment = HorizontalAlignment.Center };
-                _StackPanel.Children.Add(tb);
+                GridPanel.Children.Add(tb);
             }
-            else
+            foreach (var t in RecordingView.Items.ToList())
             {
-                for (int i = 0; i < _list.Count; i++)
-                {
-                    var obj = _list[i];
-                    DetailCtrl ctrl = new DetailCtrl() { InfoItem = obj, ItemIndex = i + 1 };
-                    ctrl.LostFocus += Ctrl_LostFocus_killctrl;
-                    _StackPanel.Children.Add(ctrl);
-                }
+                (t as DetailCtrl)?.ChangeState(true);
             }
-            Button_Click_1(null, null);
 
 
             //var ran = new Helper.RandomGenerator();
@@ -72,7 +65,7 @@ namespace PSK
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            foreach (var t in _StackPanel.Children.ToList())
+            foreach (var t in RecordingView.Items.ToList())
             {
                 (t as DetailCtrl)?.ChangeState();
             }
@@ -80,7 +73,7 @@ namespace PSK
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            foreach (var t in _StackPanel.Children.ToList())
+            foreach (var t in RecordingView.Items.ToList())
             {
                 ((DetailCtrl)t).ChangeState(false);
             }
@@ -88,7 +81,7 @@ namespace PSK
             Core.Current.CurrentUser.Recordings.Add(info);
             DetailCtrl ctrl = new DetailCtrl() { InfoItem = info, ItemIndex = Core.Current.CurrentUser.Recordings.Count };
             ctrl.LostFocus += Ctrl_LostFocus;
-            _StackPanel.Children.Add(ctrl);
+            RecordingView.Items.Add(ctrl);
             ctrl.Focus(FocusState.Pointer);
 
         }
@@ -106,7 +99,7 @@ namespace PSK
                 if (ctrl.isEmpty)
                 {
                     Core.Current.CurrentUser.Recordings.Remove(ctrl.InfoItem);
-                    _StackPanel.Children.Remove(ctrl);
+                    RecordingView.Items.Remove(ctrl);
                 }
             }
         }
@@ -123,7 +116,7 @@ namespace PSK
                 if (_AddNewDetailCtrl.isEmpty)
                 {
                     Core.Current.CurrentUser.Recordings.Remove(_AddNewDetailCtrl.InfoItem);
-                    _StackPanel.Children.Remove(_AddNewDetailCtrl);
+                    RecordingView.Items.Remove(_AddNewDetailCtrl);
                 }
                 else
                 {
