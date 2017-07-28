@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Navigation;
 using PSK.Helper;
 using PSK.UserComponent;
 using PSK.Models;
+using Windows.UI.Core;
 
 namespace PSK
 {
@@ -55,7 +56,7 @@ namespace PSK
             //var item = new Info() {  Detail = "testdetail" ,DetailName="testdetailname"};
             //Core.Current.CurrentUser.Recordings.Add(item);
 
-            //int a = 0;
+            int a = 0;
 
 
         }
@@ -91,6 +92,8 @@ namespace PSK
                 Window.Current.Content = rootFrame;
             }
 
+            SystemNavigationManager.GetForCurrentView().BackRequested += Userpage_BackRequested;
+
             if (e.PrelaunchActivated == false)
             {
                 if (rootFrame.Content == null)
@@ -103,6 +106,14 @@ namespace PSK
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();
             }
+        }
+
+
+        private void Userpage_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            e.Handled = true;
+            if ((Window.Current.Content as Frame).CanGoBack)
+                (Window.Current.Content as Frame).GoBack();
         }
 
         /// <summary>

@@ -96,8 +96,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core.cs" />
-    <Compile Include="ctrltestpage.xaml.cs">
-      <DependentUpon>ctrltestpage.xaml</DependentUpon>
+    <Compile Include="DetailPage.xaml.cs">
+      <DependentUpon>DetailPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ImportPage.xaml.cs">
       <DependentUpon>ImportPage.xaml</DependentUpon>
@@ -142,7 +142,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ctrltestpage.xaml">
+    <Page Include="DetailPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

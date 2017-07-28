@@ -8,62 +8,36 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid x:Name="GridPanel" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" GotFocus="Grid_GotFocus">
+    <Grid x:Name="GridPanel" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.Resources>
             <DataTemplate x:Key="recording_template" x:DataType="core:Info">
-                <Grid x:Name="GR_Modify"
-              HorizontalAlignment="Stretch"
-                      Width="500"
-              >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="{x:Bind ItemIndex}"
-                       x:Name="GR_Modify_tb"
-                       FontSize="20"
-                       VerticalAlignment="Center"
-                       Margin="10,5,10,5"
-                       MinWidth="20"/>
-                    <TextBox x:Name="GR_Modify_tb1"
-                             IsReadOnly="{x:Bind Switchbool,Mode=TwoWay}"
-                     Grid.Column="1"
-                       Text="{x:Bind DetailName,Mode=TwoWay}"
-                       VerticalAlignment="Center"
-                     FontSize="15" BorderThickness="0,0,0,1"
-                     VerticalContentAlignment="Bottom"
-                     Margin="5"></TextBox>
-                    <TextBox x:Name="GR_Modify_tb2"
-                             IsReadOnly="{x:Bind Switchbool,Mode=TwoWay}"
-                       Grid.ColumnSpan="2"
-                       Grid.Column="2"
-                       Text="{x:Bind Detail,Mode=TwoWay}"
-                       VerticalAlignment="Center"
-                     FontSize="15"
-                     BorderThickness="0,0,0,1"
-                     VerticalContentAlignment="Bottom"
-                     Margin="15,5,5,5"></TextBox>
+                <Grid HorizontalAlignment="Center">
+                    <TextBlock Text="{x:Bind DetailName}" Margin="5"/>
                 </Grid>
             </DataTemplate>
         </Grid.Resources>
-        <GridView Padding="40" MaxWidth="750" Grid.Row="1" x:Name="RecordingView"
+        <ListView Padding="40" MaxWidth="750" Grid.Row="1" x:Name="_ListView"
                   ItemTemplate="{StaticResource recording_template}"
                   ItemsSource="{x:Bind ItemCollection}"
-                  SelectionMode="None"
-                  IsItemClickEnabled="False">
-        </GridView>
+                   SelectionChanged="_ListView_SelectionChanged">
+        </ListView>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock Text="{x:Bind PID}" Margin="5" VerticalAlignment="Center"/>
-            <Button Content="back" Click="Button_Click"  Margin="5"/>
-            <Button Content="new" Click="btn_new_click"  Margin="5"/>
+            <Button Content="new" Margin="5">
+                <Button.Flyout>
+                    <Flyout x:Name="c_new_flyout">
+                        <StackPanel  Width="300">
+                            <TextBox Margin="10" Header="TableName" x:Name="c_new_tb" HorizontalAlignment="Stretch"/>
+                            <Button HorizontalAlignment="Center" Margin="10" Content="Add" Click="c_new_btn_Click"/>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
             <Button Content="Export" Margin="5">
                 <Button.Flyout>
                     <Flyout>
@@ -75,7 +49,6 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
-            <Button Content="modify" Click="btn_modify_click"  Margin="5"/>
         </StackPanel>
 
     </Grid>

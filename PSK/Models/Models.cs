@@ -11,6 +11,7 @@ using Windows.Storage.Streams;
 using System.Runtime.Serialization;
 using System.IO;
 using Windows.Security.Cryptography.Core;
+using System.Collections.ObjectModel;
 
 /* Models*/
 /*  
@@ -105,22 +106,6 @@ namespace PSK.Models
             }
         }
 
-        public bool Switchbool
-        {
-            get { return _Switchbool; }
-            set { _Switchbool = value; SwitchChangedEvent?.Invoke(this); }
-        }
-        private bool _Switchbool = true;
-
-        public int ItemIndex { get => _ItemIndex; set => _ItemIndex = value; }
-        private int _ItemIndex = 0;
-
-        public delegate void SwitchChangedEventHandler(Info f);
-        public event SwitchChangedEventHandler SwitchChangedEvent;
-        public bool isSwitchChangedEventNull { get { return SwitchChangedEvent == null ? true : false; } }
-
-
-
         public Recording Encode(CurrentUser user)
         {
             Record = new Recording();
@@ -150,12 +135,87 @@ namespace PSK.Models
             this.Detail = user.Decode(record.value);
         }
 
-        public Info(Recording record, CurrentUser user,int index)
+
+    }
+
+    public class UI_Info_Str
+    {
+        public string str { get; set; }
+    }
+
+    public class UI_Info
+    {
+
+
+        public Info _Info { get; set; }
+        public ObservableCollection<UI_Info_Str> Lines { get => _Lines; }
+        private ObservableCollection<UI_Info_Str> _Lines = new ObservableCollection<UI_Info_Str>();
+        private int _infoindex = 0;
+
+
+        public UI_Info(Info info)
         {
-            this.Record = record;
-            this.DetailName = user.Decode(record.key);
-            this.Detail = user.Decode(record.value);
-            this.ItemIndex = index;
+            if (info != null)
+                _Info = info;
+            else
+                throw new NullReferenceException();
+            _infoindex = Core.Current.CurrentUser.Recordings.IndexOf(info);
+            _deserialize();
+            _Lines.CollectionChanged += _Lines_CollectionChanged;
+        }
+
+        public void _Lines_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            _serializeAsync();
+        }
+
+        private async void _serializeAsync()
+        {
+            try
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (var ost = ms.AsOutputStream())
+                    {
+                        DataContractSerializer ser = new DataContractSerializer(typeof(ObservableCollection<UI_Info_Str>));
+                        ser.WriteObject(ost.AsStreamForWrite(), _Lines);
+                        await ost.FlushAsync();
+                        var res = Encoding.UTF8.GetString(ms.ToArray());
+                        Core.Current.CurrentUser.Recordings[_infoindex] = new Info() { DetailName = _Info.DetailName, Record = _Info.Record, Detail = res };
+                    }
+
+
+                }
+            }
+            finally { }
+
+
+
+
+
+        }
+
+        private void _deserialize()
+        {
+            if (_Info.Detail == "") return;
+            try
+            {
+                using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(_Info.Detail)))
+                {
+                    using (var ist = ms.AsInputStream())
+                    {
+                        DataContractSerializer ser = new DataContractSerializer(typeof(ObservableCollection<UI_Info_Str>));
+                        if (ser.ReadObject(ist.AsStreamForRead()) is ObservableCollection<UI_Info_Str> res)
+                        {
+                            var t = res;
+                            _Lines = res;
+                        }
+                    }
+                }
+            }
+            finally { }
+
+
         }
     }
 

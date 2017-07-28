@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using PSK.UserComponent;
 using Windows.UI.Xaml.Navigation;
 using System.Threading.Tasks;
+using Windows.UI.Core;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -28,6 +29,8 @@ namespace PSK
         public MainPage()
         {
             this.InitializeComponent();
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            Core.Current.Unsubscribe();
         }
 
 

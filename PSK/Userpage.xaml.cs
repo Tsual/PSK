@@ -9,6 +9,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage.Pickers;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -32,18 +33,14 @@ namespace PSK
         {
             this.InitializeComponent();
 
-
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Core.Current.Unsubscribe();
-            if (Frame.CanGoBack)
-                Frame.GoBack();
         }
 
 
-        bool _isReadonly = true;
+
+
+
+
+
 
 
 
@@ -74,19 +71,27 @@ namespace PSK
             else ConfirmBTN.IsEnabled = false;
         }
 
-        private void btn_new_click(object sender, RoutedEventArgs e)
-        {
 
+
+
+        private void c_new_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (c_new_tb.Text == "")
+                return;
+            ItemCollection.Add(new Info() { DetailName = c_new_tb.Text, Detail = "" });
+            c_new_flyout.Hide();
         }
 
-        private void btn_modify_click(object sender, RoutedEventArgs e)
+        private void _ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            foreach (var t in ItemCollection)
-                t.Switchbool = !t.Switchbool;
-        }
+            if (e.AddedItems.Count == 0) return;
+            var _info = e.AddedItems[0] as Info;
+            if (_info != null)
+                Core.Current.DetailPage_databridge = new UI_Info(_info);
+            Frame.Navigate(typeof(DetailPage));
 
-        private void Grid_GotFocus(object sender, RoutedEventArgs e)
-        {
+
+
 
         }
     }

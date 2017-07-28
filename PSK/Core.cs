@@ -248,6 +248,8 @@ namespace PSK
 
         public bool isRegisted => innerobj == null ? false : true;
 
+        public UI_Info DetailPage_databridge { get; set; }
+
         public void DeleteUser()
         {
             using (APPDbContext db = new APPDbContext())
@@ -275,6 +277,7 @@ namespace PSK
         CurrentUser CurrentUser { get; }
         bool isRegisted { get; }
         void DeleteUser();
+        UI_Info DetailPage_databridge { get; set; }
     }
 
 }

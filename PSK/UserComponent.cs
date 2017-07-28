@@ -19,8 +19,10 @@ namespace PSK.UserComponent
             this.PWD_hash = PWD_hash;
             this.UID = UID;
 
-            for (int i = 0; i < list.Count; i++)
-                recordings.Add(new Info(list[i], this, i + 1));
+            //for (int i = 0; i < list.Count; i++)
+            //    recordings.Add(new Info(list[i], this));
+            foreach (var t in list)
+                recordings.Add(new Info(t,this));
             recordings.CollectionChanged += Recordings_CollectionChanged;
         }
 
