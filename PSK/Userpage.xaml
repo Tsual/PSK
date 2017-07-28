@@ -53,12 +53,12 @@
                 </Grid>
             </DataTemplate>
         </Grid.Resources>
-        <ListView Padding="40" MaxWidth="750" Grid.Row="1" x:Name="RecordingView"
+        <GridView Padding="40" MaxWidth="750" Grid.Row="1" x:Name="RecordingView"
                   ItemTemplate="{StaticResource recording_template}"
                   ItemsSource="{x:Bind ItemCollection}"
                   SelectionMode="None"
                   IsItemClickEnabled="False">
-        </ListView>
+        </GridView>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock Text="{x:Bind PID}" Margin="5" VerticalAlignment="Center"/>
