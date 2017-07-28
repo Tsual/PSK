@@ -43,7 +43,7 @@ namespace PSK
         }
 
 
-
+        bool _isReadonly = true;
 
 
 
@@ -76,13 +76,13 @@ namespace PSK
 
         private void btn_new_click(object sender, RoutedEventArgs e)
         {
-            Info _new = new Info() { Detail = "", DetailName = "", Switchbool = false };
 
         }
 
         private void btn_modify_click(object sender, RoutedEventArgs e)
         {
-
+            foreach (var t in ItemCollection)
+                t.Switchbool = !t.Switchbool;
         }
 
         private void Grid_GotFocus(object sender, RoutedEventArgs e)

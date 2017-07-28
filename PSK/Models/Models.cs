@@ -74,7 +74,6 @@ namespace PSK.Models
     public class Info
     {
         public Recording Record { get; set; }
-        public Info _This { get { return this; } }
 
         string _DetailName = "";
         public string DetailName

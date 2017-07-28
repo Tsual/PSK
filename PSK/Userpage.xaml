@@ -33,7 +33,7 @@
                        Margin="10,5,10,5"
                        MinWidth="20"/>
                     <TextBox x:Name="GR_Modify_tb1"
-                             IsReadOnly="{x:Bind Switchbool}"
+                             IsReadOnly="{x:Bind Switchbool,Mode=TwoWay}"
                      Grid.Column="1"
                        Text="{x:Bind DetailName,Mode=TwoWay}"
                        VerticalAlignment="Center"
@@ -41,7 +41,7 @@
                      VerticalContentAlignment="Bottom"
                      Margin="5"></TextBox>
                     <TextBox x:Name="GR_Modify_tb2"
-                             IsReadOnly="{x:Bind Switchbool}"
+                             IsReadOnly="{x:Bind Switchbool,Mode=TwoWay}"
                        Grid.ColumnSpan="2"
                        Grid.Column="2"
                        Text="{x:Bind Detail,Mode=TwoWay}"
@@ -55,7 +55,9 @@
         </Grid.Resources>
         <ListView Padding="40" MaxWidth="750" Grid.Row="1" x:Name="RecordingView"
                   ItemTemplate="{StaticResource recording_template}"
-                  ItemsSource="{x:Bind ItemCollection}">
+                  ItemsSource="{x:Bind ItemCollection}"
+                  SelectionMode="None"
+                  IsItemClickEnabled="False">
         </ListView>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
