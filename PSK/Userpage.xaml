@@ -19,11 +19,19 @@
                     <TextBlock Text="{x:Bind DetailName}" Margin="5"/>
                 </Grid>
             </DataTemplate>
+            <Storyboard x:Name="stb_del_in">
+                <ColorAnimation Storyboard.TargetName="gr_del" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
+                                Duration="0:0:0.3" From="LightGray" To="LightGreen" EnableDependentAnimation="True"/>
+            </Storyboard>
+            <Storyboard x:Name="stb_del_out">
+                <ColorAnimation Storyboard.TargetName="gr_del" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
+                                Duration="0:0:0.3" From="LightGreen" To="LightGray" EnableDependentAnimation="True"/>
+            </Storyboard>
         </Grid.Resources>
         <ListView Padding="40" MaxWidth="750" Grid.Row="1" x:Name="_ListView"
                   ItemTemplate="{StaticResource recording_template}"
                   ItemsSource="{x:Bind ItemCollection}"
-                   SelectionChanged="_ListView_SelectionChanged">
+                   SelectionChanged="_ListView_SelectionChanged" CanDragItems="True" DragItemsStarting="_ListView_DragItemsStarting" DragItemsCompleted="_ListView_DragItemsCompleted">
         </ListView>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -49,6 +57,11 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
+            <Grid x:Name="gr_del" Grid.Row="1" Width="30" Margin="5" VerticalAlignment="Stretch"  Background="LightGray" 
+                      DragOver="gr_del_DragOver" Drop="gr_del_Drop" DragLeave="gr_del_DragLeave" DragEnter="gr_del_DragEnter" DragStarting="gr_del_DragStarting" AllowDrop="True"
+                      >
+                <TextBlock Text="&#59213;" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25"/>
+            </Grid>
         </StackPanel>
 
     </Grid>

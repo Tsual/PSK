@@ -26,7 +26,8 @@ using System.Collections.ObjectModel;
         public DateTime Time { get; set; }
     }
     */
-
+    //serialize model add random token
+    //need9
 namespace PSK.Models
 {
     [Table(name: "StringSequenceA")]
@@ -376,11 +377,11 @@ namespace PSK.Models
                 {
                     //search user
                     User user = null;
-                    try
+                    foreach(var t in db.Users.ToList())
                     {
-                        user = db.Users.Single(b => b.pid == pid);
+                        if (t.pid == pid)
+                            user = t;
                     }
-                    catch (InvalidOperationException) { }
 
                     if (user == null)
                     {

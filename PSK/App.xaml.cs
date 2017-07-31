@@ -34,7 +34,11 @@ namespace PSK
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            using (APPDbContext db = new APPDbContext())
+            {
+                db.Database.EnsureCreated();
 
+            }
             //using (APPDbContext db = new APPDbContext())
             //{
             //    foreach (var t in db.Users.ToList())
@@ -56,7 +60,7 @@ namespace PSK
             //var item = new Info() {  Detail = "testdetail" ,DetailName="testdetailname"};
             //Core.Current.CurrentUser.Recordings.Add(item);
 
-            int a = 0;
+            //int a = 0;
 
 
         }

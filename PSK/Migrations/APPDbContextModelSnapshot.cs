@@ -62,7 +62,7 @@ namespace PSK.Migrations
 
                     b.Property<string>("pid");
 
-                    b.Property<string>("pwd_hash_aes");
+                    b.Property<string>("pwd");
 
                     b.HasKey("ID");
 

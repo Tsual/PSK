@@ -39,7 +39,7 @@ namespace PSK
                 _UI_Info = Core.Current.DetailPage_databridge;
                 Core.Current.DetailPage_databridge = null;
             }
-            
+
         }
 
 
@@ -63,5 +63,73 @@ namespace PSK
             c_flyout_tb.Text = "";
             c_add_flyout.Hide();
         }
+
+
+
+        #region Delete button funcs
+        Models.UI_Info_Str _del_item = null;
+        private void ListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        {
+            _del_item = e.Items.ToArray()[0] as Models.UI_Info_Str;
+        }
+
+        private void ListView_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)
+        {
+            stb_del_out.Begin();
+            _del_item = null;
+        }
+
+        private void gr_del_DragOver(object sender, DragEventArgs e)
+        {
+            e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+        }
+
+        private void gr_del_Drop(object sender, DragEventArgs e)
+        {
+            if(_del_item!=null)
+            {
+                Items.Remove(_del_item);
+            }
+        }
+
+        private void gr_del_DragLeave(object sender, DragEventArgs e)
+        {
+            stb_del_out.Begin();
+        }
+
+        private void gr_del_DragEnter(object sender, DragEventArgs e)
+        {
+            stb_del_in.Begin();
+        }
+
+        private void gr_del_DragStarting(UIElement sender, DragStartingEventArgs args)
+        {
+            
+        }
+        #endregion
+
+        #region Add Button Fucntion
+        private void gr_add_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            stb_add_in.Begin();
+        }
+
+        private void gr_add_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
+
+        private void gr_add_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            stb_add_out.Begin();
+        }
+
+        private void gr_add_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
+        #endregion
+
+
     }
 }

@@ -8,7 +8,7 @@ using PSK.Models;
 namespace PSK.Migrations
 {
     [DbContext(typeof(APPDbContext))]
-    [Migration("20170721035034_init")]
+    [Migration("20170731023127_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,7 +63,7 @@ namespace PSK.Migrations
 
                     b.Property<string>("pid");
 
-                    b.Property<string>("pwd_hash_aes");
+                    b.Property<string>("pwd");
 
                     b.HasKey("ID");
 

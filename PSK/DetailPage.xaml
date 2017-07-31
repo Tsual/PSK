@@ -7,6 +7,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <Page.Resources>
+        <Flyout x:Name="c_add_flyout" x:Key="c_add_flyout" Placement="Right">
+            <StackPanel Width="300">
+                <TextBox Header="Add new record" x:Name="c_flyout_tb" HorizontalAlignment="Stretch" Margin="10"/>
+                <Button Content="Add" Click="Button_Click" HorizontalAlignment="Center" Margin="10"/>
+            </StackPanel>
+        </Flyout>
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.Resources>
@@ -15,6 +23,22 @@
                     <TextBox HorizontalAlignment="Center" MinWidth="200" Text="{x:Bind str}" BorderBrush="Gray" BorderThickness="0,0,0,1"/>
                 </Grid>
             </DataTemplate>
+            <Storyboard x:Name="stb_add_in">
+                <ColorAnimation Storyboard.TargetName="gr_add" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
+                                Duration="0:0:0.3" From="LightGray" To="LightGreen" EnableDependentAnimation="True"/>
+            </Storyboard>
+            <Storyboard x:Name="stb_add_out">
+                <ColorAnimation Storyboard.TargetName="gr_add" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
+                                Duration="0:0:0.3" From="LightGreen" To="LightGray" EnableDependentAnimation="True"/>
+            </Storyboard>
+            <Storyboard x:Name="stb_del_in">
+                <ColorAnimation Storyboard.TargetName="gr_del" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
+                                Duration="0:0:0.3" From="LightGray" To="LightGreen" EnableDependentAnimation="True"/>
+            </Storyboard>
+            <Storyboard x:Name="stb_del_out">
+                <ColorAnimation Storyboard.TargetName="gr_del" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
+                                Duration="0:0:0.3" From="LightGreen" To="LightGray" EnableDependentAnimation="True"/>
+            </Storyboard>
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -34,22 +58,29 @@
                         Grid.Row="1"
                         HorizontalAlignment="Center"
                         MinWidth="400"
-                        Grid.Column="1"
+                        Grid.Column="1" DragItemsStarting="ListView_DragItemsStarting" DragItemsCompleted="ListView_DragItemsCompleted" CanDragItems="True"
                         >
 
             </ListView>
-            <StackPanel>
-                <Button Content="Add" HorizontalAlignment="Stretch">
-                    <Button.Flyout>
-                        <Flyout x:Name="c_add_flyout">
-                            <StackPanel Width="300">
-                                <TextBox Header="Add new record" x:Name="c_flyout_tb" HorizontalAlignment="Stretch" Margin="10"/>
-                                <Button Content="Add" Click="Button_Click" HorizontalAlignment="Center" Margin="10"/>
-                            </StackPanel>
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
-            </StackPanel>
+            <Grid HorizontalAlignment="Center" Margin="35">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid x:Name="gr_del" Grid.Row="1" Width="100" Height="100" VerticalAlignment="Center" Background="LightGray" 
+                      DragOver="gr_del_DragOver" Drop="gr_del_Drop" DragLeave="gr_del_DragLeave" DragEnter="gr_del_DragEnter" DragStarting="gr_del_DragStarting" AllowDrop="True"
+                      >
+                    <TextBlock Text="&#59213;" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="50"/>
+                </Grid>
+
+                <Grid x:Name="gr_add" Grid.Row="0" Width="100" Height="100" VerticalAlignment="Center" Background="LightGray" 
+                      PointerEntered="gr_add_PointerEntered" PointerPressed="gr_add_PointerPressed" PointerExited="gr_add_PointerExited" Tapped="gr_add_Tapped"
+                      FlyoutBase.AttachedFlyout="{StaticResource c_add_flyout}">
+                    <TextBlock Text="&#xE710;" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="50"/>
+                </Grid>
+            </Grid>
         </Grid>
 
 
