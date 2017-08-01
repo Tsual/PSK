@@ -48,7 +48,7 @@
             </Button>
             <Button Content="Export" Margin="5">
                 <Button.Flyout>
-                    <Flyout>
+                    <Flyout x:Name="export_flyout">
                         <StackPanel >
                             <PasswordBox Header="File key (protect your password and data)" x:Name="TB_Password" BorderThickness="0,0,0,1" Margin="10" PasswordChanged="TB_Password_PasswordChanged"></PasswordBox>
                             <CheckBox x:Name="Export_cb" Content="Delete data when finished" Margin="10,20,10,0"/>

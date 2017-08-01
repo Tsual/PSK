@@ -41,6 +41,11 @@ namespace PSK
             var spicker = new FileSavePicker();
             spicker.FileTypeChoices.Add("XML", new List<String>() { ".xml" });
             var sfs = await spicker.PickSaveFileAsync();
+            if (sfs == null) {
+                TB_Password.Password = "";
+                export_flyout.Hide();
+                return;
+            }
             await DataPacManager.SerializeAsync(sfs, TB_Password.Password);
             if ((bool)Export_cb.IsChecked)
             {
