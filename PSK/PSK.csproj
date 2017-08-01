@@ -96,6 +96,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core.cs" />
+    <Compile Include="ctrl_test.xaml.cs">
+      <DependentUpon>ctrl_test.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DetailPage.xaml.cs">
       <DependentUpon>DetailPage.xaml</DependentUpon>
     </Compile>
@@ -116,6 +119,10 @@
     <Compile Include="Models\ModelController.cs" />
     <Compile Include="Models\Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="testpage.xaml.cs">
+      <DependentUpon>testpage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="test_model.cs" />
     <Compile Include="UserComponent.cs" />
     <Compile Include="Userpage.xaml.cs">
       <DependentUpon>Userpage.xaml</DependentUpon>
@@ -142,6 +149,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ctrl_test.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DetailPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -157,6 +168,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="testpage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Userpage.xaml">
       <SubType>Designer</SubType>
