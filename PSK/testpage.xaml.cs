@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
+// https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板s
 
 namespace PSK
 {
@@ -22,9 +22,17 @@ namespace PSK
     /// </summary>
     public sealed partial class testpage : Page
     {
+        public string prot1 { get { return Rect_at.ActualWidth + "\\" + Rect_at.ActualWidth; } }
+
+
         public testpage()
         {
             this.InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            int a = 0;
         }
     }
 }

@@ -17,25 +17,33 @@ using Windows.UI.Xaml.Navigation;
 
 namespace PSK
 {
-    public sealed partial class ctrl_test : UserControl,IVisualCollectionItem<test_model>
+    public sealed partial class VisualCollection_t1 : UserControl
     {
-        public ctrl_test()
+        public enum InitModel
+        {
+            VerMulti, VerLine, HorLine, HorMulti
+        }
+
+
+
+
+        public VisualCollection_t1()
         {
             this.InitializeComponent();
-        }
-
-        public string Str { get; set; }
-
-        public test_model Obj { get; set; }
-
-        public void Init()
-        {
             
+
+
         }
 
-        public void SetObj()
+        private InitModel _Initmodel = 0;
+        public InitModel Initmodel { get => _Initmodel; set => _Initmodel = value; }
+
+        public IEnumerable<test_model> ItemsCollection { get; set; }
+        List<UIElement> UIElements = new List<UIElement>();
+
+        private void c_ScrollBar_Holding(object sender, HoldingRoutedEventArgs e)
         {
-            this.Str = Obj.Str;
+
         }
     }
 }
