@@ -1,0 +1,76 @@
+﻿<Page
+    x:Class="PSK.testpage2"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PSK"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Border x:Name="_root"
+            ManipulationMode="TranslateY">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.Resources>
+                <Storyboard x:Name="_head_renderT_backStb">
+                    <DoubleAnimation x:Name="_head_renderT_backA" EnableDependentAnimation="True" 
+                                     Duration="0:0:0.5" To="0"
+                                     Storyboard.TargetName="_head_renderT"
+                                     Storyboard.TargetProperty="TranslateY">
+                        <DoubleAnimation.EasingFunction>
+                            <SineEase EasingMode="EaseIn"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                    <DoubleAnimation x:Name="_head_renderT_backA1" EnableDependentAnimation="True" 
+                                     Duration="0:0:0.5" To="0"
+                                     Storyboard.TargetName="grp"
+                                     Storyboard.TargetProperty="Height">
+                        <DoubleAnimation.EasingFunction>
+                            <SineEase EasingMode="EaseIn"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+            </Grid.Resources>
+            <Grid x:Name="_BackgroundGrid" Grid.RowSpan="5" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="100" Background="Gray"/>
+            <Grid x:Name="_ViewHead" Grid.Row="0"/>
+            <Border x:Name="_head_border"
+                    VerticalAlignment="Top"
+                    Grid.Row="1">
+                <Rectangle x:Name="grp"/>
+                <Border.RenderTransform>
+                    <CompositeTransform x:Name="_head_renderT"/>
+                </Border.RenderTransform>
+            </Border>
+
+            <Grid x:Name="_ContentPanel" Grid.Row="2">
+                <ScrollViewer>
+                    <StackPanel x:Name="_StackPanel" Background="White" HorizontalAlignment="Stretch">
+                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                        <Rectangle x:Name="Rect_at" Width="200" Height="100" Margin="20" Fill="Red"/>
+                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                    </StackPanel>
+                </ScrollViewer>
+                
+            </Grid>
+        </Grid>
+    </Border>
+
+</Page>
