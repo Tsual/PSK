@@ -7,55 +7,78 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Border x:Name="_root"
-            ManipulationMode="TranslateY">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <Grid.Resources>
-                <Storyboard x:Name="_head_renderT_backStb">
-                    <DoubleAnimation x:Name="_head_renderT_backA" EnableDependentAnimation="True" 
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.Resources>
+            <Storyboard x:Name="_head_renderT_backStb">
+                <DoubleAnimation x:Name="_head_renderT_backA" EnableDependentAnimation="True" 
                                      Duration="0:0:0.5" To="0"
                                      Storyboard.TargetName="_head_renderT"
                                      Storyboard.TargetProperty="TranslateY">
-                        <DoubleAnimation.EasingFunction>
-                            <SineEase EasingMode="EaseIn"/>
-                        </DoubleAnimation.EasingFunction>
-                    </DoubleAnimation>
-                    <DoubleAnimation x:Name="_head_renderT_backA1" EnableDependentAnimation="True" 
+                    <DoubleAnimation.EasingFunction>
+                        <SineEase EasingMode="EaseIn"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation x:Name="_head_renderT_backA1" EnableDependentAnimation="True" 
                                      Duration="0:0:0.5" To="0"
                                      Storyboard.TargetName="grp"
                                      Storyboard.TargetProperty="Height">
-                        <DoubleAnimation.EasingFunction>
-                            <SineEase EasingMode="EaseIn"/>
-                        </DoubleAnimation.EasingFunction>
-                    </DoubleAnimation>
-                </Storyboard>
-            </Grid.Resources>
-            <Grid x:Name="_BackgroundGrid" Grid.RowSpan="5" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="100" Background="Gray"/>
-            <Grid x:Name="_ViewHead" Grid.Row="0"/>
-            <Border x:Name="_head_border"
+                    <DoubleAnimation.EasingFunction>
+                        <SineEase EasingMode="EaseIn"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation x:Name="_head_renderT_backA3" EnableDependentAnimation="True" 
+                                     Duration="0:0:0.5" To="0"
+                                     Storyboard.TargetName="_ScrollBar_renderT"
+                                     Storyboard.TargetProperty="ScaleY">
+                    <DoubleAnimation.EasingFunction>
+                        <SineEase EasingMode="EaseIn"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+        </Grid.Resources>
+        <Grid x:Name="_ScrollBarGrid" VerticalAlignment="Stretch" HorizontalAlignment="Right" Grid.Column="1">
+            <ScrollBar x:Name="_ScrollBar" VerticalAlignment="Stretch" Width="20"
+                       Orientation="Vertical" IndicatorMode="TouchIndicator">
+                <ScrollBar.RenderTransform>
+                    <CompositeTransform x:Name="_ScrollBar_renderT"/>
+                </ScrollBar.RenderTransform>
+            </ScrollBar>
+        </Grid>
+        <Border x:Name="_root" ManipulationMode="TranslateY" PointerWheelChanged="_root_PointerWheelChanged">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid x:Name="_BackgroundGrid" Grid.RowSpan="5" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="100" Background="Gray"/>
+                <Grid x:Name="_ViewHead" Grid.Row="0"/>
+                <Border x:Name="_head_border"
                     VerticalAlignment="Top"
                     Grid.Row="1">
-                <Rectangle x:Name="grp"/>
-                <Border.RenderTransform>
-                    <CompositeTransform x:Name="_head_renderT"/>
-                </Border.RenderTransform>
-            </Border>
+                    <Rectangle x:Name="grp"/>
+                    <Border.RenderTransform>
+                        <CompositeTransform x:Name="_head_renderT"/>
+                    </Border.RenderTransform>
+                </Border>
 
-            <Grid x:Name="_ContentPanel" Grid.Row="2">
-                <ScrollViewer>
+                <Grid x:Name="_ContentPanel" Grid.Row="2">
                     <StackPanel x:Name="_StackPanel" Background="White" HorizontalAlignment="Stretch">
                         <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
                         <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                        <!--<Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
                         <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
                         <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
                         <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
                         <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
-                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                        <Grid Width="200" Height="100" Margin="20" Background="LightBlue">
+                            <Button Content="ff"/>
+                        </Grid>
                         <Rectangle x:Name="Rect_at" Width="200" Height="100" Margin="20" Fill="Red"/>
                         <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
                         <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
@@ -65,12 +88,10 @@
                         <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
                         <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
                         <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
-                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>
+                        <Rectangle Width="200" Height="100" Margin="20" Fill="LightBlue"/>-->
                     </StackPanel>
-                </ScrollViewer>
-                
+                </Grid>
             </Grid>
-        </Grid>
-    </Border>
-
+        </Border>
+    </Grid>
 </Page>
