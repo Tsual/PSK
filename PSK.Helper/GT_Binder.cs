@@ -18,8 +18,8 @@ namespace PSK.Helper
         /// </summary>
         private class GT_Binder_Pac
         {
-            private T1 _T1;
-            private T2 _T2;
+            public T1 _T1;
+            public T2 _T2;
         }
 
         public class GT_Binder_NotFindException:Exception
@@ -44,14 +44,26 @@ namespace PSK.Helper
         /// </summary>
         List<GT_Binder_Pac> _list = new List<GT_Binder_Pac>();
 
-        private T2 Findt2(T1 obj)
+        public IEnumerable<T2> this[T1 obj]
         {
-            
+            get
+            {
+                return from t in _list
+                       where t._T1.Equals(obj)
+                       where T1Nullable && (t == null || obj == null)
+                       select t._T2;
+            }
         }
 
-        private T1 Findt1(T2 obj)
+        public IEnumerable<T1> this[T2 obj]
         {
-
+            get
+            {
+                return from t in _list
+                       where t._T2.Equals(obj)
+                       where T2Nullable && (t == null || obj == null)
+                       select t._T1;
+            }
         }
 
 
