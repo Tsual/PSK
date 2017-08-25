@@ -51,7 +51,7 @@ namespace PSK.Helper
 
         private T1 Findt1(T2 obj)
         {
-            fffffdsafadf
+            ffff
         }
 
 
