@@ -46,12 +46,12 @@ namespace PSK.Helper
 
         private T2 Findt2(T1 obj)
         {
-            if(obj==null)
+            
         }
 
         private T1 Findt1(T2 obj)
         {
-            ffff
+
         }
 
 
